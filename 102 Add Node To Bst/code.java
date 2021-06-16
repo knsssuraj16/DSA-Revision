@@ -79,54 +79,20 @@ public class Main {
     display(node.right);
   }
 
-  public static int size(Node node) {
-   if(node == null){
-       return 0;
-   }
-   
-   int a =size(node.left)+size(node.right)+1;
-   return a;
-  }
-
-  public static int sum(Node node) {
+  public static Node add(Node node, int data) {
+      
     if(node == null){
-       return 0;
-   }
-   
-   int a =sum(node.left)+sum(node.right)+node.data;
-   return a;
-  }
-
-  public static int max(Node node) {
-   if(node == null){
-       return Integer.MIN_VALUE;
-   }
-   
-   int a =Math.max(Math.max(max(node.left),max(node.right)),node.data);
-   return a;
-  }
-
-  public static int min(Node node) {
-      if(node == null){
-       return Integer.MAX_VALUE;
-   }
-   
-   int a =Math.min(Math.min(min(node.left),min(node.right)),node.data);
-   return a;
-  }
-
-  public static boolean find(Node node, int data){
-       if(node == null){
-       return false;
-   }
-   if(node.data == data){
-       return true;
-   }
-    if(find(node.left,data) || find(node.right,data)){
-        return true;
+        return new Node(data,null,null);
     }
-   return false;
-  }  
+    
+    if( data < node.data){
+        
+        node.left = add(node.left,data);
+    }else if(data > node.data) {    
+        node.right = add(node.right,data);
+    }
+    return node;
+  }
 
   public static void main(String[] args) throws Exception {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -144,18 +110,9 @@ public class Main {
     int data = Integer.parseInt(br.readLine());
 
     Node root = construct(arr);
+    root = add(root, data);
 
-    int size = size(root);
-    int sum = sum(root);
-    int max = max(root);
-    int min = min(root);
-    boolean found = find(root, data);
-
-    System.out.println(size);
-    System.out.println(sum);
-    System.out.println(max);
-    System.out.println(min);
-    System.out.println(found);
+    display(root);
   }
 
 }
