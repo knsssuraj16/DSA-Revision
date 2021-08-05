@@ -1,0 +1,34 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    
+    public static void recurr(int n,int psf){
+        
+        if(psf > n){
+            return ;
+        }
+        
+        System.out.println(psf);
+        
+        
+       for(int j=0; j<10;j++){
+            recurr(n,psf*10+j);
+        
+       }
+       
+       
+    }
+	public static void main(String[] args) {
+		Scanner scn = new Scanner(System.in);
+		int n = scn.nextInt();
+
+		//write your code here
+		
+		for(int j=1; j<=9;j++){
+            recurr(n,j);
+        
+       }
+	}
+	
+}
