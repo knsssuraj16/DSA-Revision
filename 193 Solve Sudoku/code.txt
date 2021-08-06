@@ -1,0 +1,82 @@
+// import java.io.*;
+import java.util.*;
+
+public class Main {
+  public static void display(int[][] board){
+    for(int i = 0; i < board.length; i++){
+      for(int j = 0; j < board[0].length; j++){
+        System.out.print(board[i][j] + " ");
+      }
+      System.out.println();
+    }
+  }
+
+    public static boolean kclear(int[][] board, int i, int j,int l){
+        for(int k=0; k< board.length ; k++){
+            if(board[i][k] == l ){
+                return false;
+            }
+        }
+        for(int k=0; k< board.length; k++){
+            if(board[k][j] == l ){
+                return false;
+            }
+        }
+        int ik= i/3 *3;
+       int iz = j/3*3;
+        
+        for(int k=ik; k<=ik+2 ; k++){
+            for(int z=iz; z<= iz+2 ; z++){
+                if(board[k][z] == l ){
+                    return false;
+                }
+             }
+        }
+        
+        return true;
+    }
+  public static void solveSudoku(int[][] board, int i, int j) {
+      
+      if(i == board.length){
+          display(board);
+          return;
+      }
+      int li =i;
+      int lj=j;
+       if(j == (board.length-1)){
+           lj =0;
+           li++;
+           
+       }else{
+           lj++;
+       }
+       
+       if(board[i][j] != 0){
+           
+           solveSudoku(board, li, lj);
+       }else{
+           for(int k=1; k<=9; k++){
+               if(kclear(board,i,j,k)){
+               board[i][j]= k;
+               
+                solveSudoku(board, li, lj);
+                
+               board[i][j]= 0;
+               }
+           }
+       }
+  }
+
+  public static void main(String[] args) throws Exception {
+    Scanner scn = new Scanner(System.in);
+    int[][] arr = new int[9][9];
+    for (int i = 0; i < 9; i++) {
+      for (int j = 0; j < 9; j++) {
+        arr[i][j] = scn.nextInt();
+      }
+    }
+    
+
+    solveSudoku(arr, 0, 0);
+  }
+}
