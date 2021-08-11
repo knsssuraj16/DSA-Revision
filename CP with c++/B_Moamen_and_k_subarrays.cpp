@@ -17,21 +17,32 @@ int32_t main(){
     while(t--){
         int n,k;
         cin>>n >>k;
-        int arr[n];
+        vector< int> arr;
+        vector< int> sarr;
         for(int i= 0; i< n;i++){
-            cin >> arr[i];
+            int a;
+            cin >> a;
+            arr.push_back(a);
         }
 
-        bool flag= true;
 
-        int last = INT_MIN; // -89459834598
-        for(int i= 0; i< n;i++){
-           if(last >arr[i] ){
-               k--;
-           }
-           last = arr[i];
+        map<int,int> index;
+	    for(int i=0;i<n;i++)
+         index[arr[i]]=i;
+         
+        sort(arr.begin(),arr.end());
+	
+	
+	    for(int i=0;i<n-1;i++){
+	     int i1 = index[arr[i]];
+	     int i2 = index[arr[i+1]];
+	     if(i1+1!=i2)k--;
+	    }
+	
+        //    cout << k<<endl;
 
-        }
+        
+
         if(k<=0){
 
          cout<<"No"<<endl;
