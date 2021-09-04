@@ -1,0 +1,1 @@
+{"name":"Local: booleanpar","url":"c:\\Users\\91892\\Desktop\\DSA\\CP with c++\\booleanpar.cpp","tests":[{"id":1630771089432,"input":"1\n35\nT|F^F&T|F^F^F^T|T&T^T|F^T^F&F^T|T^F","output":"35"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\91892\\Desktop\\DSA\\CP with c++\\booleanpar.cpp","group":"local","local":true}
