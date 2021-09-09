@@ -1,86 +1,43 @@
-#include <bits/stdc++.h>
-using namespace std;
-#define endl ("\n")
-#define fast ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
-
-
-class Solution{
-    
-int dp[201][201][2];
+class Solution {
 public:
-    int solve(string &str,int i,int j,bool isTrue){
+    unordered_map<string, bool> mp;
+    bool isScramble(string a, string b) {
         
-        if(i>j){
-            return 0;
+        if(a.length() != b.length()){
+            return false;
         }
-        if(i==j){
-            if(isTrue){
-                return str[i] == 'T';
-            }else{
-                return str[i] == 'F';;
+        
+        if(a.compare(b) == 0){
+            return true;
+        }
+        
+        if (a.length()<=1){
+            return false;
+        }
+        
+        string key = a;
+        key.push_back(' ');
+        key.append(b);
+        if(mp.find(key) != mp.end()){
+            return mp[key];
+        }
+        
+        
+        bool flag= false;
+        int n = a.length();
+        for(int i = 1; i<=n-1; i++){
+            if(isScramble(a.substr(0,i),b.substr(0,i))&&
+               isScramble(a.substr(i,n-i),b.substr(i,n-i)) || 
+              
+               isScramble(a.substr(0,i),b.substr(n-i,i))&&
+               isScramble(a.substr(i,n-i),b.substr(0,n-i))){
+                flag = true;
             }
         }
-    
-        if(dp[i][j][isTrue] != -1){
-            return dp[i][j][isTrue]; 
-        }
-         int sum =0 ;
-        for(int k = i+1; k<= j-1 ;k=k+2 ){
-            int lt = solve(str,i,k-1,true);
-            int lf = solve(str,i,k-1,false);
-            int rt = solve(str,k+1,j,true);
-            int rf = solve(str,k+1,j,false);
-           
-            if(str[k] == '&'){
-                if(isTrue){
-                    sum +=(lt * rt);
-                }else{
-                    sum += ((lf * rf) + (lf * rt) +( lt * rf));
-                }
-            } else if(str[k] == '|'){
-                 if(isTrue){
-                     
-                    sum += ((lt * rt) + (lf * rt) +( lt * rf));
-                }else{
-                    
-                    sum +=(lf * rf);
-                }
-            } else if(str[k] == '^'){
-                if(isTrue){
-                     
-                    sum += ( (lf * rt) +( rf * lt));
-                }else{
-                    
-                    sum +=(lf * rf) +(lt * rt);
-                }
-            }
-        }
-         dp[i][j][isTrue] = sum%1003;
-        return dp[i][j][isTrue];
-    }
-    int countWays(int N, string S){
-        memset(dp ,-1, sizeof (dp));
-      
-
-
-        return   solve(S,0,S.length()-1,true);;
+        
+        mp[key] = flag;
+        
+        return flag;
+        
     }
 };
-
-// { Driver Code Starts.
-
-int main(){
-    int t;
-    cin>>t;
-    while(t--){
-        int N;
-        cin>>N;
-        string S;
-        cin>>S;
-        
-        Solution ob;
-        cout<<ob.countWays(N, S)<<"\n";
-        
-    }
-    return 0;
-} 
