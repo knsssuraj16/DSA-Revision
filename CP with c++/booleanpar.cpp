@@ -19,7 +19,7 @@ public:
             }else{
                 return str[i] == 'F';;
             }
-        }
+        }   
     
         if(dp[i][j][isTrue] != -1){
             return dp[i][j][isTrue]; 

@@ -25,9 +25,9 @@ int32_t main(){
         }
 
         int count=0;
-        bool fla= true;
+        bool fla= true,fla2 =true;
         // int debug =0 ;
-        while(fla){
+        while(fla | fla2){
 
         //     for(int i =0; i< n;i++){
         //         cout<< arr[i]<<" ";
