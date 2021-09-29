@@ -1,0 +1,51 @@
+#include<bits/stdc++.h>
+using namespace std;
+bool check(long long n,long long k ){
+    long long temp=n;
+    long long shar=0;
+    
+    
+    while(temp>0){
+        
+        shar +=min(k,temp); 
+        temp-=k;
+        temp-=temp/10;
+    }
+    
+      // cout<<k<<": "<<shar<<endl;
+    if(2*shar>=n){
+        return true;
+        
+    }else{
+        return false;
+        
+    }
+}
+int main(){
+    
+  
+    int t;
+    cin>>t;
+    while(t--){
+        long long n;
+        cin>>n;
+        long long  i=1;
+        long long  j=n;
+        long long ans=0;
+        while(i<=j){
+            long long mid = i +( j-i)/2;
+            // cout<<"mid:"<<mid<<endl;
+            if(check(n,mid)){
+                ans= mid;
+                j=mid-1;
+                // cout<<i<<" "<<j<<" "<<mid<<" "<<ans<<"rt\n";
+            }else{
+                i= mid+1;
+                
+            }
+            
+        }
+        cout<<ans<<endl;
+    }
+    return 0;
+}
