@@ -1,0 +1,40 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+ int cc;
+void removes(char arr[]){
+    if(arr[0]=='\0'){
+        return ;
+        
+    }
+    // cc++;
+    // if(cc>100){
+    // 	cout<<cc;
+    //     return;
+    // }
+  
+        if(arr[0] == arr[1]){
+              int i =1;
+    		 for(;arr[i] != '\0';i++){
+				arr[i-1]=arr[i];
+            }
+            
+            arr[i-1]='\0';
+            removes(arr);
+        }else{
+            removes(arr+1);
+        }
+    
+}
+int main(){
+    int t ;
+    cin>> t;
+    char str[100000];
+    while(t--){
+        cin>>str;
+         removes(str);
+        cout<<str<<endl;
+    }
+    // write your code here
+    return 0;
+}
