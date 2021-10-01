@@ -1,0 +1,64 @@
+#includebitsstdc++.h
+using namespace std;
+
+int chess[10][10];
+
+bool checkSafe(int n ,int r,int c){
+     column check
+    for(int i=r-1;i=0; i--){
+        if(chess[i][c]){
+            return false;
+        }
+    }
+    
+    for(int i=r-1, j =c-1 ;i=0 && j=0; i--,j--){
+        if(chess[i][j]){
+            return false;
+        }
+    } 
+    for(int i=r-1, j =c+1 ;i=0 && jn; i--,j++){
+        if(chess[i][j]){
+            return false;
+        }
+    }
+        
+   return true;     
+}
+void nQHelper (int n ,int r){
+    if(r == n){
+       for(int i =0; in;i++){
+           for(int j =0; jn;j++){
+               coutchess[i][j] ;
+           }
+       }
+        coutn;
+        return;
+    }
+    
+    for(int c=0;cn;c++){
+        if(checkSafe(n , r, c)){
+            chess[r][c]= 1;
+             nQHelper(n,r+1);
+            chess[r][c]= 0;
+        }
+    }
+    
+    return;
+}
+
+void nQueenPro(int n){
+    
+    nQHelper(n,0);
+    
+}
+int main(){
+    
+     write your code here
+    
+    int n ;
+    cinn;
+    memset(chess,0,sizeof chess);
+    
+    nQueenPro(n);
+    return 0;
+}
