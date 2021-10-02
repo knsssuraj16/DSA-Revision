@@ -1,0 +1,24 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int pows (int n,int k){
+    if(k ==-0){
+        return 1;
+    }
+    if(k==1){
+        return n;
+    }
+    
+    return (int )(((long)n *(long) pows(n, k-1)) % 1000000007);
+}
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+        int n,k;
+        cin>>n>>k;
+        cout<<pows(n,k)<<endl;
+    }
+    // write your code here
+    return 0;
+}
