@@ -1,0 +1,32 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define M 1000000007
+int solve(int h){
+    if(h== 0 || h== 1){
+        return 1;
+    }
+    
+    
+    long long  x= solve(h-1);
+    long long    y = solve(h-2);
+    // int res= (x*x) +2*(x*y);
+    long long   res= (x*x)+(2*x*y);
+    
+    
+    
+     // int res= ((x%M*x%M) % M)%M +(2*(x%M*y%M)%M) % M) %M;
+     // int res= ((( (x%10000000007 )* (x% 10000000007))% 10000000007)) + ((2 *( ((x%10000000007 ) * (y%10000000007 )) % 10000000007)) % 10000000007;
+    return res%M;
+}
+int main(){
+    
+    // write your code here
+    int t; 
+    cin>>t;
+    while(t--){
+        int h;
+        cin>>h;
+        cout<<solve(h)<<endl;
+    }
+    return 0;
+}
