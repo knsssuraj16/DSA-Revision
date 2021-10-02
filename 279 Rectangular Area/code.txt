@@ -1,0 +1,49 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+    
+    int n;
+    cin>>n;
+    map<int,int,greater<int>> mp;
+    for(int i =0; i<n ;i++)
+    {
+        int a,b;
+        cin>>a>>b;
+     if(mp.find(a/2) == mp.end()){
+         mp[a/2]= b;
+     }else{
+         if(mp[a/2] < b){
+             mp[a/2]= b;
+         }
+     }
+    }
+    
+    auto a = mp.begin();
+    int end=(*a).first;
+    long long last=0;
+    long long tot=0;
+      // cout<<end<<" e"<<endl;
+    for(;end>0;end--){
+        
+        if(mp.find(end) != mp.end() && mp[end]> last){
+            
+            last=mp[end];
+            tot += mp[end];
+            
+        	
+         }else{
+            tot += last;
+          
+         }
+     
+        // cout<<last<<" "<<endl;
+    }
+    
+    // for(auto a:mp){
+    //     // tot += a.second;
+    //       cout<<a.first<<" "<<endl;
+    // }
+     cout<< tot*2 <<endl;
+    // write your code here
+    return 0;
+}
