@@ -1,0 +1,27 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define M 1000000007
+
+int solve(int n){
+    if(n==1){
+        return 1;
+    }
+    long res= (long)solve(n-1);
+    long res1= (long)n;
+ 	 long res2 = res*res1;
+    	
+    return res2 % M;
+}
+int main(){
+    
+    // write your code here
+    
+    int t;
+    cin>>t;
+    while(t--){
+        int n;
+        cin>>n;
+        cout<<solve(n)<<endl;
+    }
+    return 0;
+}
