@@ -1,0 +1,74 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+// int ik=0;
+int checkBio(int n , int *arr){
+    int *incA= new int [n];
+    int *decA= new int [n];
+    
+    incA[0]= 1;
+    decA[n-1]= 1;
+    int mx = INT_MIN;
+    for(int i =1;i<n ;i++){
+        int tempI= 0;
+        // int tempD= 0;
+        for(int j=0; j<i;j++){
+            if(arr[j] < arr[i]){
+                tempI  =max( incA[j],tempI );
+            } 
+           
+           
+        }
+        
+        incA[i]= tempI+1;
+        // int tm = max(incA[i],decA[i]);
+        // mx= max(mx,tm);
+        
+    }
+       for(int i =n-2;i >= 0 ;i--){
+       
+        int tempD= 0;
+        for(int j=n-1; j> i;j--){
+          
+            if(arr[j] < arr[i]){
+                tempD  = max( decA[j],tempD);
+            }
+        
+        }
+        
+        decA[i]=tempD+1;
+       
+        
+    }
+    
+    
+    for(int i =0; i< n;i++){
+       mx = max(mx,incA[i]+decA[i]);
+         // cout<<decA[i]<<"inca"<<incA[i]<<endl;
+    }
+    
+    delete []incA;
+    delete []decA;
+    return mx-1;
+    
+    
+}
+int main(){
+    
+    // write your code here
+    
+    
+    int t;
+    cin>>t;
+    while(t--){
+        int n;
+        cin>>n;
+        int *arr = new int[n];
+        for(int i =0;i<n;i++){
+            cin>>arr[i];
+        }
+        cout<< checkBio(n,arr)<<endl;
+        delete [] arr;
+    }
+    return 0;
+}
