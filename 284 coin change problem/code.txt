@@ -1,0 +1,46 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define M 1000000007;
+int dp[11][5001];
+int solve(int *arr, int n,int tar){
+    if(tar == 0){
+        return 1;
+    }
+    if(n==0 || tar < 0){
+        return 0;
+    }
+    
+    if(dp[n][tar] != -1){
+        return dp[n][tar];
+    }
+        
+        int tot = solve(arr,n,tar-arr[n-1]);
+    
+     	  tot+= solve(arr,n-1,tar);
+    dp[n][tar] = tot %M;
+    return tot%M;
+}
+int main(){
+    
+    // write your code here
+    int t;
+    cin>>t;
+    while(t--){
+        int n;
+        cin>>n;
+        int arr[n];
+        int tar;
+        
+        for(int i=0;i<n;i++){
+            cin>>arr[i];
+        }
+        
+       
+        
+        cin>>tar;
+         memset(dp,-1,sizeof dp);
+        cout<< solve(arr,n,tar)<<endl;
+    }
+    return 0;
+}
