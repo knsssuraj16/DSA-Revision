@@ -1,0 +1,41 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int solve (vector<int> &arr,int n,vector<int> &dp){
+    
+    if(n<= 0){
+        return 0;
+    }
+    if(dp[n] != -1){
+        return dp[n];
+    }
+    int ans = solve(arr,n-1,dp);
+    int ans2 = solve(arr,n-2,dp)+ arr[n] * (n);
+    
+    int mx = max(ans,ans2);
+    dp[n] = mx;
+    return mx;
+}
+int main(){
+    
+    // write your code here
+    
+    int t;
+    cin>>t;
+    while(t--){
+        int n;
+        cin>>n;
+        vector<int> vec(1001, 0);
+        vector<int> dp(1001, -1);
+        for(int i =0;i<n;i++){
+            int a;
+            cin>>a;
+            vec[a]++;
+        }
+        
+        
+        
+        cout<< solve(vec,1000, dp)<<endl;
+    }
+    return 0;
+}
