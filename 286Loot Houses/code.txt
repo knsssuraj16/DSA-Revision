@@ -1,0 +1,39 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+long long sol(vector<int> &arr, int n,vector<long long> &dp){
+    if(n-1 == 0){
+        return arr[0];
+    }
+    if(n == 0){
+        return 0;
+    }
+    
+    if(dp[n] != -1){
+        return dp[n];
+    }
+    
+    
+    long long ex= sol(arr,n-1,dp);
+    
+    long long inc = sol(arr,n-2,dp) + arr[n-1];
+    long long mx = max(ex,inc);
+    
+    dp[n] = mx;
+    return mx;
+}
+int main(){
+    
+    // write your code here
+    
+    int n;
+    cin>>n;
+    vector<int> vec(n);
+    for(int i =0;i< n;i++){
+        cin>> vec[i];
+        
+    }
+    vector<long long > dp(n+1,-1);
+    cout<<sol(vec,n,dp);
+    return 0;
+}
