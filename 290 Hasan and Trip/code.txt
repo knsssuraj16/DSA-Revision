@@ -1,0 +1,71 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+struct coor{
+    int x;
+    int y;
+    int fi;
+};
+
+double findCost(struct coor y ,struct coor x){
+   long long l = y.x - x.x ;
+     long long r = y.y - x.y;
+    long long  ur = (( l*l) + (r*r));
+    
+   return  sqrt(ur);
+    
+}
+
+
+ void maxHap(vector<struct coor>  &arr, int n){
+     
+ 
+     
+      
+     double dp[n];
+     
+      for(int k=0; k<n;k++){
+                dp[k] = -1e9;
+            }  
+     
+     // for(int k=0; k<n;k++){
+     //              cout<<dp[k] <<" ";
+     //        }
+     //        cout<<endl;
+     
+     dp[0] = arr[0].fi;
+     for( int i =0; i< n; i++){
+      	
+		for(int j=i+1; j<n; j++)
+		{	
+			double dist=findCost(arr[i],arr[j]);
+            // cout<<arr[j].fi <<" "<< dp[i]<<" " << dist<<endl;
+			dp[j]=max(dp[j], arr[j].fi + dp[i]-dist);
+            
+           
+		}
+     }
+     
+    cout<<fixed;
+	cout.precision(6);
+	cout<< dp[n-1]<<endl;
+     
+ }
+int main(){
+    
+    // write your code here
+    int t;
+    cin>>t;
+    while(t--){
+        int n;
+        cin >> n;
+        vector<struct coor> arr(n);
+        
+        for(int i =0; i< n; i++){
+            cin >> arr[i].x >> arr[i].y >> arr[i].fi ;
+        }
+        
+       maxHap(arr,n);
+    }
+    return 0;
+}
