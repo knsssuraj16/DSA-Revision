@@ -1,0 +1,61 @@
+
+
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+    int size =1000001;
+    // write your code herei
+    int t;
+    cin>> t;
+    while (t--){
+        int n;
+        int d;
+        cin >> n >> d;
+        vector<int> sd(size,0);
+        vector<int> ed(size,0);
+        for(int i =0; i< d; i++){
+            int l,r;
+            cin >> l >> r;
+           	sd[l-1]++;
+            ed[r-1]++;
+          }
+        
+        int q;
+        cin>>q;
+         vector <long long> boxCoin(size,0l);
+        boxCoin[0] = sd[0];
+        
+        for(int i =1; i< n ;i++){
+            	boxCoin[i] = sd[i]-ed[i-1]+boxCoin[i-1];
+       }
+        
+        
+        
+        
+    	vector<long long> ans(n+1,0l);
+        
+       for(int i =0; i< n ;i++){
+           if(boxCoin[i]>=1)
+            	ans[boxCoin[i]-1]++;
+       }
+        
+       
+        
+        for(int i =n-2; i>= 0 ;i--){
+            	ans[i] = ans[i]+ans[i+1];
+       }
+        
+       
+        
+        for(int i =0 ; i< q; i++){
+            int qr;
+            cin >> qr;
+             
+            cout<<ans[qr-1]<<endl;
+         	   
+        }
+        
+        
+    }
+    return 0;
+}
