@@ -1,0 +1,22 @@
+class Solution {
+public:
+    
+    bool helper(vector<int>& nums){
+        
+        int r= nums.size()-1;
+        int l = 0;
+        for(int i = r-1;i>= 0; i--){
+            if(nums[i] + i >= r){
+                r = i;
+            }
+        }
+        if(r == 0){
+            return true;
+        }else
+        return false;
+    }
+    bool canJump(vector<int>& nums) {
+        return helper(nums);
+        
+    }
+};
