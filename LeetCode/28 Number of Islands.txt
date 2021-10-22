@@ -1,0 +1,52 @@
+class Solution {
+public:
+    // bottom, left ,top, right
+    int row[4] ={1,0,-1,0};
+    int col[4] ={0,-1,0,1};
+    
+   bool isValidIdx(int i,int j,vector<vector<char>>& grid){
+       if(i < 0 || j<0|| i>= grid.size()|| j>= grid[0].size()){
+           return false;
+       }
+       return true;
+   }
+    int bfs(vector<vector<char>>& grid,int i,int j,vector<vector<bool>>& vis){
+        if(grid[i][j] == '0'){
+            return 0;
+        }
+        
+        vis[i][j] = 1;
+        queue<pair<int ,int> > q;
+        q.push({i,j});
+        
+        while(q.size() > 0){
+           pair<int,int> pa =  q.front();
+            q.pop();
+            int a = pa.first;
+            int b = pa.second;
+            for(int k =0;k<4; k++){
+                
+                if(isValidIdx(a+row[k],b+col[k],grid) && grid[a+row[k]][b+col[k]] == '1' && !vis[a+row[k]][b+col[k]]){
+                    vis[a+row[k]][b+col[k]] = 1;
+                    q.push({a+row[k],b+col[k]});
+                }
+            }
+        }
+        
+        return 1;
+    }
+    int numIslands(vector<vector<char>>& grid) {
+        vector<vector<bool>> vis (grid.size(),vector<bool>(grid[0].size(),false));
+        int count =0;
+        for(int i =0; i< grid.size(); i++){
+            for(int j =0; j< grid[0].size(); j++){
+                
+                if(!vis[i][j] ){
+                    count += bfs(grid,i,j,vis);
+                }
+            }
+        }
+        
+        return count;
+    }
+};
