@@ -1,0 +1,23 @@
+class Solution {
+public:
+    vector<vector<int>> merge(vector<vector<int>>& in) {
+         vector<vector<int>> res;
+        
+        sort(in.begin(),in.end());
+        int l = in[0][0],r =in[0][1];
+        for(int i=1; i< in.size() ;i++){
+            if(r >= in[i][0]){
+                l = min(l,in[i][0]);
+                r = max(r,in[i][1]);
+            }else{
+                res.push_back({l,r});
+                 l = in[i][0];
+                 r =in[i][1];
+            }
+        }
+          res.push_back({l,r});
+        
+        return res;
+        
+    }
+};
