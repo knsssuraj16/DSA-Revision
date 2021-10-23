@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int eraseOverlapIntervals(vector<vector<int>>& in) {
+       
+        sort(in.begin(),in.end());
+        
+        int l = in[0][0];
+        int r = in[0][1];
+        int count =0 ;
+        for(int i =1;i< in.size(); i++){
+            if(r > in[i][0]){
+                l = min(l,in[i][0]);
+                r = min(r,in[i][1]);
+                count++;
+            }else if (in[i][0] >= r){
+                l = in[i][0];
+                r = in[i][1];
+            }
+            
+        }
+        
+        return count;
+    }
+};
