@@ -1,0 +1,20 @@
+class Solution {
+public:
+    bool isPalindrome(string s) {
+        
+        transform(s.begin(),s.end(),s.begin(),::tolower);
+        
+        string locstring ="";
+        for(int i = 0; i< s.length(); i++){
+            if(s[i]-96 >= 1 && s[i] - 96 <= 26 || isdigit(s[i])){
+                locstring+=s[i];
+            }
+        }
+        
+        string rev= locstring ;
+        reverse(rev.begin(),rev.end());
+        // cout<< rev<<endl;
+        // cout<< locstring <<endl;
+        return (rev == locstring) ;
+    }
+};
