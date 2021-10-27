@@ -1,0 +1,31 @@
+class Solution {
+public:
+    int characterReplacement(string s, int k) {
+     
+        unordered_map <char , int > mp ;
+        int ans=0;
+        int i =0,j =0,n = s.length();
+        // mp[s[j++]]++;
+        while(j<n){
+            mp[s[j++]]++;
+            int mx =0;
+            for(auto a: mp){
+               mx = max(a.second,mx);
+            }
+            
+            int len = j-i;
+            int adjus = len - mx;
+            
+            if(adjus > k){
+                mp[s[i]]--;
+                i++;
+            }else
+                ans = max(ans,len);
+                // j++;
+            
+            
+        }
+        
+        return ans;
+    }
+};
