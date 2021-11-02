@@ -1,0 +1,63 @@
+class Solution {
+public:
+    vector<int> dx = {0,1,0,-1};
+    vector<int> dy = {1,0,-1,0};
+    
+    int  helper(vector<vector<int>>& grid,int sti,int stj,int eni,int enj,int remcelcount,vector<vector<bool>>& vis){
+        if(sti<0 || stj <0 || sti == grid.size() || stj == grid[0].size() || vis[sti][stj] || grid[sti][stj] == -1){
+             // cout<<remcelcount<<" "  ;
+               // cout<< sti <<" " <<stj <<endl;
+               //   cout<< eni <<" " << enj << endl;
+            
+
+            return 0;
+        }
+        
+        if(sti == eni && stj == enj && remcelcount == 1 ){
+             // cout<<remcelcount<<" "  ;
+            return 1;
+        }
+        vis[sti][stj] = true;
+        
+        
+        
+        int tot =0;
+        for(int i =0; i< 4; i++){
+           tot += helper(grid,sti+dx[i],stj+dy[i],eni,enj,remcelcount-1,vis);
+        }
+        
+          vis[sti][stj] = false;
+        
+        return tot;
+    }
+    
+    int uniquePathsIII(vector<vector<int>>& grid) {
+        
+        int sti =0, stj,eni,enj,remcelcount=0;
+        
+        vector<vector<bool>> vis (grid.size(),vector<bool>(grid[0].size(),false));
+        
+        for(int i =0; i< grid.size(); i++){
+            for(int j =0; j<grid[0].size(); j++){
+                if(grid[i][j] == 1){
+                    sti = i;
+                    stj = j;
+                }else if (grid[i][j] == 2){
+                    eni= i;
+                    enj =j;
+                    
+                }else if (grid[i][j] == -1 ){
+                    remcelcount++;
+                }
+            }
+        }
+         
+     
+        remcelcount =((grid.size()*grid[0].size()) -remcelcount);
+        
+                     
+            
+        
+        return helper(grid,sti,stj,eni,enj,remcelcount,vis);
+    }
+};
