@@ -1,0 +1,19 @@
+   vector<int> singleNumber(vector<int>& nums) {
+        
+        long long  xor1= 0;
+        for(auto a: nums){
+            xor1 ^= a;
+        }
+        
+        long long  lastbiton = xor1 & (-xor1);
+         long long  res1=0,res2=0;
+        for(auto a: nums){
+            if((a & lastbiton) == 0){
+                res1 ^= a;
+            }else{
+                res2 ^= a;
+            }
+        }
+        
+        return {(int)res1,(int )res2};
+    }
