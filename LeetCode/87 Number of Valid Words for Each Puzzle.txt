@@ -1,0 +1,48 @@
+class Solution {
+public:
+    vector<int> findNumOfValidWords(vector<string>& words, vector<string>& puzzles) {
+        
+        unordered_map<int,int> mp;
+        
+        for(auto a : words){
+            
+            int mask =0;
+            for(auto c : a){
+                
+                mask |= (1 <<(c-'a'));
+                
+            }
+            
+            mp[mask]++;
+        }
+        
+        // for(auto a : mp){
+        //     cout <<a.first <<"  "<<a.second.size()<<"  \n";
+        // }
+        
+        vector<int> ans;
+        
+         for(auto p:puzzles){
+            int pmask=0;
+            for(auto a:p){
+                pmask|=(1<<(a-'a'));
+            }
+            int mas=pmask;
+            int first=(1<<(p[0]-'a'));
+            int co=0;
+            while(1){
+                if(((pmask & first)==first) && mp.find(pmask)!=mp.end()){
+                    co+=mp[pmask];
+                }
+                if(pmask==0){
+                    break;
+                }
+                pmask=(pmask-1)&mas;
+            }
+            ans.push_back(co);
+        }
+        return ans;
+  
+        
+    }
+};
