@@ -1,0 +1,43 @@
+class Solution {
+public:
+    
+    bool check(vector<int>& weight,int mid,int days){
+        
+        int sum =0;
+        int count =1 ;
+        for(auto a : weight){
+            if(a > mid) return false;
+            
+            
+            
+            if((sum + a) > mid ){
+                count++;
+                sum =0;
+            }
+            sum +=a;
+        }
+        
+        return count <= days;
+    }
+        
+    int shipWithinDays(vector<int>& weights, int days) {
+        
+        int mn=1;
+        int mx =0;
+        for(auto a : weights) mx+=a;
+        int ans = 0;
+        while(mn <= mx){
+            int mid = ((mx+mn) >> 1);
+            
+            if(check(weights,mid,days)){
+                ans = mid; 
+                mx = mid -1 ;
+            }else{
+               mn = mid + 1  ;
+                
+            }
+        }
+        return ans;
+        
+    }
+};
