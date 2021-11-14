@@ -1,0 +1,33 @@
+class CombinationIterator {
+    
+    private:
+    int i;
+    vector<string> temp;
+
+    
+    void setValue(string str, int j,string ans, int size){
+        if(ans.size() == size){
+            temp.push_back(ans);
+            return ;
+        }
+        
+        for(int i =j; i < str.size(); i++){
+            setValue(str,i+1,ans+str[i],size);
+        }
+        
+    }
+    public:
+    CombinationIterator(string characters, int combinationLength) {
+       
+        i =0;
+        setValue(characters,0,"",combinationLength);
+    }
+    
+    string next() {
+        return temp[i++];   
+    }
+    
+    bool hasNext() {
+        return i < temp.size();
+    }
+};
