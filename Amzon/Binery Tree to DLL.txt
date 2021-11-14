@@ -1,0 +1,36 @@
+class Solution
+{
+    public: 
+    void helper(Node *root,Node* &head,Node* &tail,int &flag){
+        if(!root){
+            return ;
+        }
+        
+        helper(root->left,head,tail,flag);
+        
+        if(flag == 0){
+            cout <<"heallor" <<endl;
+            flag=1;
+            head= root;
+            tail = root;
+        }else{
+            tail->right = root;
+            tail->right->left = tail;
+            tail = root;
+            
+        }
+       
+        helper(root->right,head,tail,flag);
+      
+       
+    }
+    //Function to convert binary tree to doubly linked list and return it.
+    Node * bToDLL(Node *root)
+    {
+        // your code here
+        Node *head,*pre;
+        int flag=0;
+        helper(root,head,pre,flag);
+        return head;
+    }
+};
