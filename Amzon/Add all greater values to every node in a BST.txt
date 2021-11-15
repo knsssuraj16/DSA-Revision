@@ -1,0 +1,17 @@
+
+void helper(Node* root ,int &i){
+    if(!root) return;
+    
+    helper(root->right,i);
+    i = root->data + i;
+    root->data = i;
+    helper(root->left,i);
+    
+}
+Node* modify(Node *root)
+{
+    int sum =0;
+    helper(root,sum);
+    return root;
+    // Your code here
+}
