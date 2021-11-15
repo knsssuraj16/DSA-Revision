@@ -1,0 +1,31 @@
+  vector<int> dp;
+    void helper(vector<int>& nums, vector<int>& res,int i,int vic, vector<int> temp){
+        if(i >= nums.size()){
+            if(res.size() < temp.size()){
+            
+                res= temp;
+            }
+            return;
+        }
+        
+         if((int)temp.size()>dp[i] && nums[i] % vic == 0 || vic % nums[i] == 0){
+             
+              dp[i]=temp.size();
+              temp.push_back(nums[i]);
+                helper(nums,res,i+1,nums[i],temp);
+             temp.pop_back();
+         }
+         helper(nums,res,i+1,vic,temp);
+        
+        
+    }
+    
+    vector<int> largestDivisibleSubset(vector<int>& nums) {
+        vector<int> res;
+        vector<int> temp;
+        for(int i=0;i<=nums.size();i++) dp.push_back(-1);
+        sort(nums.begin(),nums.end());
+        helper(nums,res,0,1,temp);
+        
+        return res;
+    }
