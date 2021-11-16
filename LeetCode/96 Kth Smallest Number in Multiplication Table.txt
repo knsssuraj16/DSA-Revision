@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int countEle(int mid,int m,int n){
+        int count =0;
+        for(int i = 1; i<= m; i++){
+           int temp = min(mid/i,n);
+            count+=temp;
+        }
+        return count;
+    }
+    int findKthNumber(int m, int n, int k) {
+     
+        int i =1; 
+        int j =m*n;
+        while(i<=j){
+            int mid = (i+j) >> 1;
+            if(countEle(mid,m,n) < k){
+                i = mid+1;
+            }else{
+                j = mid-1;
+            }
+        }
+        
+        return i;
+    }
+};
