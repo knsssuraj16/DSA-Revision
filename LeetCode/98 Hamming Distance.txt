@@ -1,0 +1,15 @@
+   int countBit(int xors){
+        int count =0;
+        while(xors >0){
+            if(xors & 1 == 1){
+                count++;
+            }
+           xors = xors >> 1;
+        }
+        
+        return count;
+    }
+    int hammingDistance(int x, int y) {
+        int xors= (x xor y);
+        return countBit(xors);
+    }
