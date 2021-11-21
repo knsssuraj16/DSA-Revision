@@ -1,0 +1,62 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int kadane( vector<int>  &narr,int m){
+    int res =narr[0] ;
+    int finalres =INT_MIN;
+    for(int i =1 ; i< m; i++){
+    	if(res<0){
+            res = narr[i];
+        }
+        else{
+            res += narr[i];
+        }
+        
+        finalres = max(finalres,res);
+    }
+    
+    return finalres;
+}
+
+int solve(vector<vector<int>> &arr,int n,int m){
+    int ans = INT_MIN;
+    
+    
+    
+    for(int k = 0;k< n; k++){
+        
+        vector<int> narr(m,0);
+        
+        for(int i =k;i< n;i++){
+            for(int j =0; j< m; j++){
+                
+                narr[j] += arr[i][j];
+                
+            }
+           ans = max(ans,kadane(narr,m));
+        }
+    }
+    
+    return ans;
+}
+int main(){
+    
+    // write your code here
+    int t;
+    cin>> t;
+    while(t--){
+        int n,m;
+        cin >> n>> m;
+        
+        vector<vector<int>> arr(n,vector<int>(m));
+        
+        for(int i =0 ;i< n; i++){
+            for(int j =0; j< m; j++){
+                cin >> arr[i][j];
+            }
+        }
+        
+        cout<< solve(arr,n,m)<<endl;
+    }
+    return 0;
+}
