@@ -1,0 +1,11 @@
+class Solution {
+public:
+    int searchInsert(vector<int>& nums, int target) {
+        auto a =upper_bound(nums.begin(),nums.end(),target);
+        int res =  a-nums.begin();
+        if(res<=0){
+            return 0;
+        }
+        return (nums[res-1]== target ? res-1: res);
+    }
+};
