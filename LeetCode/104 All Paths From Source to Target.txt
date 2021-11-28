@@ -1,0 +1,29 @@
+class Solution {
+public:
+    
+    vector<vector<int>> res;
+    void  solve(vector<vector<int>>&  graph, vector<int> &loc, int i ,vector<int> &visited){
+        
+        if(i == graph.size()-1){
+            
+            res.push_back(loc);
+        }
+        for(auto a : graph[i]){
+            if(!visited[a]){
+                visited[a]= true;
+                loc.push_back(a);
+                 solve(graph,loc,a,visited);
+                loc.pop_back();
+                visited[a]= false;
+            }
+        }
+        
+    }
+    vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph) {
+        vector<int> visited(graph.size(),false);
+             vector<int> loc;
+            loc.push_back(0);
+            solve(graph,loc,0,visited);
+        return res;
+    }
+};
