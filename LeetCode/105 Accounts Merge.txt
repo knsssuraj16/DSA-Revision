@@ -1,0 +1,81 @@
+class Solution {
+public:
+    int par[100001];
+    
+    int find (int arg){
+        if(par[arg] == arg) return arg;
+        par[arg] = find(par[arg]);
+        return par[arg];
+    }
+        
+    vector<vector<string>> accountsMerge(vector<vector<string>>& accounts) {
+        
+         int count =0;
+        
+        for(int i =0 ;i< 100001; i++){
+            par[i]= i;
+        }
+        
+        unordered_map<string,int> mailCode;
+        unordered_map<string,string> mailName;
+        for(auto lis : accounts){
+            string name = "";
+            for(auto indi : lis){
+                if(name == ""){
+                    name = indi;
+                    continue;
+                }
+                
+                if(mailCode.find(indi) == mailCode.end()){
+                    mailCode[indi] = count;
+                    count++;
+                }
+                
+                if(mailName.find(indi) == mailName.end()){
+                    mailName[indi]= name;
+                }
+                
+                int groupLeader = mailCode[lis[1]];
+                
+                int p1 = find(groupLeader);
+                int p2 = find(mailCode[indi]);
+                
+                if(p1 != p2 )
+                     par[p2] = p1;
+                
+                
+                
+            }
+        }
+        
+        // for(int i=0; i< count; i++){
+        //     cout<< par[i] <<
+        // }
+        
+        unordered_map<int,vector<string>> res;
+       for(auto a : mailCode){
+           
+           int pardetail = find(a.second);
+           
+           res[pardetail].push_back(a.first);
+       }
+        
+    vector<vector<string>> ans;
+        
+        for(auto a : res){
+            vector<string> loc;
+            loc.push_back(mailName[a.second[0]]);
+            for(auto b : a.second){
+                loc.push_back(b);
+            }
+            auto itr = loc.begin();
+             // itr++;
+            
+            sort(itr+1,loc.end());
+            ans.push_back(loc);
+        }
+        
+        return ans;
+        
+    }
+};
