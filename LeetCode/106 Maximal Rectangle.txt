@@ -1,0 +1,79 @@
+class Solution {
+public:
+    int solve( vector<int>& histogram){
+          int n=histogram.size(), area=0;
+        stack<int> s;
+        
+        for(int i=0; i<n; i++){
+            while(!s.empty() && histogram[s.top()]>=histogram[i]){
+                int top = s.top();
+                s.pop();
+                
+                int start;
+                if(s.empty())
+                    start = -1;
+                else
+                    start = s.top();
+                    
+                
+                int curr_area = histogram[top] * (i - start -1);
+                area = max(area, curr_area);
+            }
+            s.push(i);
+        }
+        
+        while(!s.empty()){
+            int top = s.top();
+            s.pop();
+
+            int start;
+            if(s.empty())
+                start = -1;
+            else
+                start = s.top();
+            
+            int curr_area = histogram[top] * (n - start -1);
+            area = max(area, curr_area);
+        }
+        
+        return area;
+    }
+    int maximalRectangle(vector<vector<char>>& matrix) {
+        int n = matrix.size();
+         if(n==0){
+            return 0;
+        }
+        int m = matrix[0].size();
+        
+       
+        
+        int ans = 0;
+        
+      
+            
+            vector<int> arr(m,0);
+            
+            for(int i=0; i<n;i++){
+                for(int j =0; j< m; j++){
+                    
+                    if(matrix[i][j] =='1')
+                    arr[j] += 1;
+                    else{
+                         arr[j] =0;
+                    }
+                    
+                                        
+                    
+                }
+//                  for(int j =0; j< m; j++){
+                   
+//                     cout<< arr[j]<<" "; 
+//                  }
+//                 cout<<endl;
+                ans = max(ans,solve(arr));
+            }
+     
+        
+        return ans;
+    }
+};
