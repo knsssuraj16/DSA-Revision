@@ -1,0 +1,46 @@
+class StreamChecker {
+public:
+    class Node {
+        public:
+        Node *childs[26];
+        bool isEnd = false;
+   
+    };
+    
+     Node *root;
+    StreamChecker(vector<string>& words) {
+        root = new Node();
+        for(auto word : words){
+            
+            Node*  curr = root;
+            for(int i = word.size()-1; i>=0; i--){
+                
+                if(curr->childs[word[i]-'a']  == NULL){
+                    curr->childs[word[i]-'a'] = new Node();
+                }
+                curr = curr->childs[word[i]-'a'];
+            }
+            
+            curr->isEnd = true;
+        }
+    }
+    
+    string s;
+    bool query(char letter) {
+        s += letter;
+        Node *temp = root;
+        for(int i = s.size()-1; i>=0; i--){
+           if( temp->childs[s[i]-'a'] == NULL) return false;
+            if(temp->childs[s[i]-'a']->isEnd) return true;
+            temp = temp->childs[s[i]-'a'];
+        }
+        return false;
+        
+    }
+};
+
+/**
+ * Your StreamChecker object will be instantiated and called as such:
+ * StreamChecker* obj = new StreamChecker(words);
+ * bool param_1 = obj->query(letter);
+ */
