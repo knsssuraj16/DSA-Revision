@@ -27,7 +27,7 @@ public:
            inc += solve(root->left->left,mp) + solve(root->left->right,mp);
         }
         
-        if(root->right != NULL){
+        if(root->right != NULL){git
            inc += solve(root->right->left,mp)+solve(root->right->right,mp);
         }
         
