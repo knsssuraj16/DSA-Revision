@@ -11,12 +11,19 @@
  */
 class Solution {
 public:
-    int maxDepth(TreeNode* root) {
-        if(root == NULL){
+    int ans=0;
+    int helper(TreeNode * node){
+        if(node == NULL){
             return 0;
         }
+        int l= helper(node->left);
+        int r = helper(node->right);
         
-       return 1+ max( maxDepth(root->left),
-        maxDepth(root->right));
+        ans +=abs(l-r);
+        return node->val + l+r;
+    }
+    int findTilt(TreeNode* root) {
+             helper(root);
+        return ans;
     }
 };
