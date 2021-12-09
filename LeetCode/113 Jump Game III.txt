@@ -1,0 +1,23 @@
+class Solution {
+public:
+    bool helper(vector<int>& arr, int start, vector<int>& vis){
+        if( start < 0 || start >= arr.size() || vis[start] ){
+            return false;
+        }
+        
+        if(arr[start] == 0){
+            return true;
+        }
+        bool res = false;
+        vis[start] = true;
+        res = (res | helper(arr,start+arr[start],vis));
+        res = (res | helper(arr,start-arr[start],vis));
+        
+        return res;
+    }
+    bool canReach(vector<int>& arr, int start) {
+        
+        vector<int> vis(arr.size(),false);
+        return helper(arr,start,vis);
+    }
+};
