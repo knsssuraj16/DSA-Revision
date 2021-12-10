@@ -1,0 +1,26 @@
+class Solution {
+public:
+   
+    int numTilings(int n) {
+       if( n <= 2 )    return n;
+        int MOD = 1'000'000'007;
+        
+        long fullTiling[n+1];
+        long partTiling[n+1];
+        
+        fullTiling[1] = 1;
+        fullTiling[2] = 2;
+        
+        partTiling[1] = 0;
+        partTiling[2] = 1;
+        
+        for( int i = 3; i <= n; ++i ){
+            
+            fullTiling[i] = ( fullTiling[i-1] + fullTiling[i-2] + 2*partTiling[i-1] ) % MOD;
+            
+            partTiling[i] = ( partTiling[i-1] + fullTiling[i-2] ) % MOD;
+        }
+        
+        return (int)fullTiling[n];
+    }
+};
