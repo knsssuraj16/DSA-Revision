@@ -1,0 +1,47 @@
+class Solution {
+public:
+    int gcd (int A,int B){
+         while (B > 0) {
+            long tmp = A;
+            A = B;
+            B = tmp % B;
+        }
+        
+        return A;
+    }
+    int lcm (int a,int b){
+          return ((a * b )/gcd(a,b));
+        
+    }
+    
+    
+    int checkMagicalPosition(long  mid,int a,int b,int lcms){
+       
+        int count  = mid / a + mid/ b - mid / lcms;
+        return count;
+    }
+    int nthMagicalNumber(int n, int a, int b) {
+        
+        int res = 0;
+    
+        long long l =min(a,b);
+        long long r = ((long long )n * min(a,b));
+    
+        int lcms = lcm(a,b);
+        while(l < r){
+            long  mid = l + (r-l)/2;
+            
+            
+            // cout <<l<< " hello :"<<r <<"mid : "<<mid <<endl;
+            
+            int loc = checkMagicalPosition(mid,a,b,lcms);
+           if(loc < n ){
+                               
+                l = mid+1;
+            } else {
+                r = mid;
+            }
+        }
+        return  (int)(r % 1000000007);
+    }
+};
