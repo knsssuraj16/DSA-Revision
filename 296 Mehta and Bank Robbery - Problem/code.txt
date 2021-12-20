@@ -1,0 +1,58 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int solve(int prime[], 	vector<pair<int,int>> &arr, int cap,int n,int pi,vector<vector<vector<int>>> &dp ){
+    if(n== 0){
+        return 0;
+    }
+    if(dp[n][cap][pi] != -1){
+        return dp[n][cap][pi];
+    }
+    if(cap >= arr[n-1].second){
+        int mx = 0;
+        int inc = (arr[n-1].first *prime[pi]) +  solve(prime, arr, cap- arr[n-1].second ,n-1,(pi == 10 ? pi :pi+1),dp);
+            mx = max (mx,inc);
+       
+        
+        int ex = solve(prime, arr, cap ,n-1,pi,dp);
+        
+        dp[n][cap][pi] =  max(mx,ex);
+    	return  max(mx,ex);
+    }
+    
+     dp[n][cap][pi] = solve(prime,arr, cap ,n-1,pi,dp);
+        return dp[n][cap][pi];
+}
+int main(){
+    
+    // write your code here
+    int t ;
+    cin >> t;
+    while(t--){
+        int n, cap;
+        cin >>n >> cap;
+        
+       	vector<pair<int,int>> arr(n,pair<int,int>());
+        for(int i =0; i< n; i++){
+            cin >> arr[i].first;
+        }
+        for(int i =0; i< n; i++){
+            cin >> arr[i].second;
+        }
+        vector<vector<vector<int>>> dp(n+1, vector<vector<int>>(cap+1, vector<int> (11,-1)));
+      	int prime[11] ={29,23,19,17,13,11,7,5,3,2,1};
+        
+        
+        //  for(int i =0; i< n; i++){
+        //     cout <<arr[i].first <<" ";
+        // }
+        sort(arr.begin(),arr.end());
+        
+        // cout << endl;
+        //  for(int i =0; i< n; i++){
+        //     cout <<arr[i].first <<" ";
+        // }
+        cout << solve(prime,arr, cap,n,0,dp)<<endl;
+    }
+    return 0;
+}
