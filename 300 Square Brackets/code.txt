@@ -1,0 +1,64 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int m=pow(10,9)+7;
+
+int solve(vector<bool> &arr,int n,int o,int c, int idx,vector<vector<int>> &dp){
+    if(o == n && c == n){
+        return 1;
+    }
+    if(o > n || c > n){
+        return 0;
+    }
+    
+    if(dp[o][c] != -1){
+        return dp[o][c];
+    }
+    
+    // cout << idx << endl;
+    if(o == c || arr[idx]){
+        
+        dp[o][c] =  solve(arr,n,o+1,c,idx+1,dp);
+         return  dp[o][c];
+    }
+    else if(o == n){
+        dp[o][c] = solve(arr,n,o,c+1,idx+1,dp);
+        return  dp[o][c];
+    }else{
+        long l2 = (long)solve(arr,n,o+1,c,idx+1,dp) ;
+    	long l1 = (long)solve(arr,n,o,c+1,idx+1,dp);
+        long ans = (l1%m +  l2%m) % m;
+        dp[o][c] = (int)ans;
+        return ans;
+    }
+}
+int main(){
+    
+    // write your code here
+    int t;
+    cin >> t;
+    while(t--){
+        int n;
+        cin >> n;
+        int k ;
+        cin >> k;
+        vector<bool> arr((2*n+1),false);
+        
+        for(int i =0 ;i< k ; i++){
+            int a ;
+            
+            cin >> a;
+            arr[a-1]= true;
+        }
+        
+        
+//           for(int i =0 ;i< 2*n ; i++){
+//             cout << arr[i] <<endl;
+//         }
+        
+        vector<vector<int>> dp(n+1,vector<int>(n+1,-1));
+        
+        cout << solve(arr,n,0,0,0,dp)<< endl;
+    }
+    return 0;
+}
