@@ -1,0 +1,65 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int helper(vector<pair<int,int>> &captain,int n,int x,int i,  vector<vector<int>> &dp){
+   if(n <= 0){
+       return 0;
+   } 
+     int one=INT_MAX;
+     int two=INT_MAX;
+    
+    if(dp[i][x] != -1){
+        return dp[i][x] ;
+    }
+    
+    if(x == 0){
+        
+        dp[i][x] =captain[i].second + helper(captain, n-1,x+1,i+1,dp);
+         return dp[i][x] ;
+        
+        
+    }else if(x == n){
+        
+           dp[i][x] = captain[i].first + helper(captain, n-1, x-1,i+1,dp);
+        return dp[i][x] ;
+    }else{
+        
+    	one = captain[i].second + helper(captain, n-1, x+1,i+1,dp);
+  	   	two  = captain[i].first + helper(captain, n-1,x-1,i+1,dp);
+         dp[i][x] = min(one,two);
+        return dp[i][x] ;
+    }
+    
+    
+    
+}
+
+int solve(vector<pair<int,int>> &captain,int n){
+    vector<vector<int>> dp(n+1,vector<int>(n+1,-1));
+    
+    return helper(captain,n,0,0,dp);
+}
+int main(){
+    
+    // write your code here
+    int t ;
+    cin >> t;
+    while(t--){
+        int n;
+        cin >> n;
+        vector<pair<int,int>> captains(n,pair<int,int>());
+        
+        for(int i =0 ;i< n; i++){
+            cin >> captains[i].first;
+            cin >> captains[i].second;
+        }
+        //   for(int i =0 ;i< n; i++){
+        //    cout <<  captains[i].first<<" ";
+        //     cout << captains[i].second<<endl;
+        // }
+        
+        
+        cout << solve(captains,n)<<endl;
+    }
+    return 0;
+}
