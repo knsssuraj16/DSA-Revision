@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int disFormOrgin(int x,int y){
+        return (abs(x*x) + abs(y*y));
+    }
+    vector<vector<int>> kClosest(vector<vector<int>>& points, int k) {
+        multimap <int,pair<int,int>> mp;
+        for(int i  =0 ; i< points.size(); i++){
+            int x = points[i][0];
+            int y = points[i][1];
+            int dis = disFormOrgin(x,y);
+            
+            mp.insert({dis, {x,y}});
+            // mp.insert(pair <int, int> (dis, pair<int,int>(x,y));
+            
+        }   
+        
+       vector<vector<int>> res;
+        for(auto a : mp){
+            if(!k){
+                return res;
+            }
+            k--;
+            cout <<a.first<<" "<< a.second.first;
+            res.push_back({a.second.first,a.second.second});
+        }
+        return res;
+    }
+};
