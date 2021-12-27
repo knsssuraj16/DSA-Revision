@@ -1,0 +1,40 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int helper(string s1,string s2,int is1,int is2,    vector<vector<int>> &dp){
+    if(is1 == s1.length() || is2 == s2.length()){
+        return 0;
+    }
+    
+    if(dp[is1][is2] != -1 ){
+        return dp[is1][is2];
+    }
+    if(s2[is2] == s1[is1]){
+        
+        dp[is1][is2] = 1+ helper(s1,s2,is1+1,is2+1,dp);
+        return  dp[is1][is2];
+    }else{
+        int l = helper(s1,s2,is1,is2+1,dp);
+        int r = helper(s1,s2,is1+1,is2,dp);
+        
+        dp[is1][is2]=max (l,r);
+        return  dp[is1][is2];
+    }
+}
+int solved(string s1,string s2){
+    vector<vector<int>> dp(s1.length()+1,vector<int>(s2.length()+1,-1));
+    return ((s1.length()+s2.length()) - helper(s1,s2,0,0,dp));
+}
+int main(){
+    
+    // write your code here
+    int t;
+    cin >> t;
+    while(t--){
+        string s1,s2;
+        cin >> s1 >> s2;
+        cout << solved(s1,s2)<<endl;
+        
+    }
+    return 0;
+}
