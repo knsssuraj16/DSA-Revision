@@ -1,0 +1,53 @@
+#include<bits/stdc++.h>
+using namespace std;
+int helper(string &s1,string &s2,int k,int i,int j, vector<vector<vector<int>>> &dp){
+    
+    if(k ==0 ){
+            return 0;
+        }
+    if(i == s1.length() || j == s2.length()){
+       
+            return (-30000);
+        
+    }
+    if(dp[i][j][k] != -1){
+        return dp[i][j][k] ;
+    }
+    if(s1[i] == s2[j]){
+       int op1 = s1[i] + helper(s1,s2,k-1,i+1,j+1,dp);
+       int op2 = helper(s1,s2,k,i+1,j,dp);
+       int op3 =  helper(s1,s2,k,i,j+1,dp);
+        dp[i][j][k] = max(max(op1,op2),op3);
+        return dp[i][j][k] ;
+    }else{
+        int opt1 =  helper(s1,s2,k,i+1,j,dp);
+        int opt2 =  helper(s1,s2,k,i,j+1,dp);
+        dp[i][j][k]  = max(opt1,opt2);
+        return dp[i][j][k] ;
+    }
+}
+int soved(string s1,string s2,int k){
+    
+    vector<vector<vector<int>>> dp(s1.length()+1,vector<vector<int>>(s2.length()+1,vector<int>(k+1,-1)));
+    int res = helper(s1,s2,k,0,0,dp);
+    if(res < -20000){
+        return 0;
+    }else{
+       return res;
+    }
+}
+int main(){
+    
+    // write your code here
+    int t;
+    cin >> t;
+    while(t--){
+        string s1,s2;
+        int k;
+        cin >> s1>> s2;
+        cin >> k;
+        
+        cout << soved(s1,s2,k)  <<endl;
+    }
+    return 0;
+}
