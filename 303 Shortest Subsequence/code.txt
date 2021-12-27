@@ -1,0 +1,53 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int helper(string &s1,string &s2,int is1,int is2,    vector<vector<int>> &dp){
+     if(is2 == s2.length()){
+        return 1;
+    } if(is2 >= s2.length()){
+        return 0;
+    }
+    
+    if(is1 == s1.length() ){
+        return 1001;
+    }
+   
+    if(dp[is1][is2] != -1 ){
+        return dp[is1][is2];
+    }
+    
+    
+    int ex = helper(s1,s2,is1+1,is2,dp);
+    
+     int inc = INT_MAX;
+    int i = is2 ;
+    for(; i< s2.length(); i++){
+        if(s2[i] == s1[is1]){
+           
+            break;
+        }
+        
+    }
+    
+     inc = 1 + helper(s1,s2,is1+1,i+1,dp);
+    
+    
+    dp[is1][is2] = min(inc,ex);
+    return  dp[is1][is2] ;
+    
+}
+int solved(string s1,string s2){
+    vector<vector<int>> dp(s1.length()+1,vector<int>(s2.length()+1,-1));
+    return ( helper(s1,s2,0,0,dp));
+}
+int main(){
+    
+    // write your code here
+    
+        string s1,s2;
+        cin >> s1 >> s2;
+        cout << solved(s1,s2)<<endl;
+        
+    
+    return 0;
+}
