@@ -1,0 +1,52 @@
+#include<bits/stdc++.h>
+using namespace std;
+int mod = 1e9+7;
+int helper(int n,int k , int lb, vector<vector<vector<int>>>& dp){
+    if(n==0){
+        if(k == 0){
+            // cout << psf <<endl;
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+    if(k < 0){return 0;}
+    if(dp[n][k][lb]  != -1 ){
+        return dp[n][k][lb];
+    }
+    int res =0;
+    
+    
+//        if(lb == 0){
+        
+//     	 res = (helper(n-1,k,1,dp)% mod + helper(n-1,k,0,dp)% mod)% mod;
+//     }else{
+//     	 res = (helper(n-1,k-1,1,dp)% mod + helper(n-1,k,0,dp)% mod)% mod;
+//     }
+    if(lb == 0){
+        
+    	 res = helper(n-1,k,1,dp) + helper(n-1,k,0,dp);
+    }else{
+    	 res = helper(n-1,k-1,1,dp) + helper(n-1,k,0,dp);
+    }
+    dp[n][k][lb] = res;
+    return  dp[n][k][lb];
+}
+int solved(int n,int k){
+    vector<vector<vector<int>>> dp (n+1,vector<vector<int>>(k+1, vector<int> (2,-1)));
+    
+    return helper(n,k,0,dp);
+}
+int main(){
+    
+    // write your code here
+    int t ;
+    cin>> t;
+    while(t--){
+        
+        int n,k;
+        cin >> n >> k;
+        cout << solved(n,k)<< endl;
+    }
+    return 0;
+}
