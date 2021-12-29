@@ -1,0 +1,15 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+    
+    // write your code here
+    int t ;
+    cin >> t;
+    while(t--){
+        int n;
+        cin >> n;
+        int mask = (n &(-n));
+        cout << (mask ^ n )<<endl;
+    }
+    return 0;
+}
