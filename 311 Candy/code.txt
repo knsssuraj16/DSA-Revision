@@ -1,0 +1,51 @@
+#include<bits/stdc++.h>
+using namespace std;
+bool checkBitIsOFF(int mask,int i){
+    return (!(mask & (1 << i)));
+}
+long long helper(vector<vector<int>> &arr,int n, int j, int mask,vector<long long>& dp){
+    
+    if(j  >= n){
+        return 1;
+    }
+    
+    if(dp[mask] != -1){
+        return dp[mask];
+    }
+    
+    long long answer = 0;
+    
+    
+    for(int i =0 ;i < n ;i ++){
+        if(checkBitIsOFF(mask,i) && arr[j][i]){
+       		 answer +=  helper(arr,n,j+1,(mask|(1 << i)),dp);
+         }  
+    }
+    
+    dp[mask] = answer;
+    
+    return answer;
+}
+long long maxCandy(vector<vector<int>> &arr,int n){
+    vector<long long> dp((1 << n),-1);
+    return helper(arr,n,0,0,dp);
+}
+int main(){
+    
+    // write your code here
+    int t;
+    cin >> t;
+    while(t--){
+        int n;
+        cin >> n;
+        vector<vector<int>> arr(n,(vector<int>(n)));
+            for(int i =0; i< n ;i++){
+                for(int j =0 ;j< n; j++){
+                    cin >> arr[i][j];
+                }
+            }
+        
+        cout << maxCandy(arr,n)<<endl;
+    }
+    return 0;
+}
