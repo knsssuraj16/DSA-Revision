@@ -14,16 +14,15 @@ class Solution
     private:
     int helper(TreeNode * root,int mx,int mn){
          if(root == NULL){
-             return 0;
+             return mx -mn;
          }
         
-        int val1 = max(abs(mx-root->val),abs(mn-root->val));
         
         int val2 =  helper(root->left, max(root->val,mx),min(root->val,mn));
         
         int val3 =  helper(root->right, max(root->val,mx),min(root->val,mn));
         
-        return max(val1,max(val2,val3));
+        return max(val2,val3);
         
     }
 public:
