@@ -1,0 +1,16 @@
+ int numPairsDivisibleBy60(vector<int>& time) {
+       
+        int count =0;
+        unordered_map <int,int> mp;
+        for(int i =0; i< time.size(); i++){
+          int val = (600- (time[i])) % 60;
+            if(mp[val] > 0){
+                count +=mp[val] ;
+                
+            }
+                 mp[time[i] % 60]++;
+            
+        }
+        return count;
+        
+    }
