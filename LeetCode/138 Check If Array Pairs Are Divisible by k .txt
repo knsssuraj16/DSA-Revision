@@ -1,0 +1,25 @@
+class Solution {
+public:
+    bool canArrange(vector<int>& nums, int k) {
+          
+        int tot =0;
+        unordered_map<int,int> mp;
+        for(int i =0 ;i< nums.size(); i++){
+            int mod =nums[i] % k;
+            mod = (mod + k )% k;
+            mp[mod]++;
+            
+            
+        }
+        
+         if(mp[0]% 2 != 0) return false;
+         
+         for (int i =1 ; i<k ; i++){
+             if(mp[i] != mp[k-i]){
+                 return false;
+             }
+         }
+         return true;
+    
+    }
+};
