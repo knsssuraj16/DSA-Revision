@@ -1,0 +1,41 @@
+class Solution {
+public:
+    bool isPalilndrom(string &s,int i, int j){
+        
+        while(i<= j){
+            if(s[i] != s[j]){
+                return false;
+            }
+            i++;
+            j--;
+        }
+        
+        return true ;
+    }
+    void helper(string s ,vector<vector<string>> & res,vector<string>& psf){
+        if(s.size() == 0){
+            res.push_back(psf);
+            return;
+        }
+        
+        for(int i =0; i< s.length(); i++){
+            string loc = s.substr(0,i+1);
+            string rest = s.substr(i+1);
+            if(isPalilndrom(s,0,i)){
+                psf.push_back(loc);
+                 helper(rest,res,psf);
+                psf.pop_back();
+            }
+        }
+    }
+    vector<vector<string>> partition(string s) {
+        
+        vector<vector<string>> res ;
+        
+        if(s.empty()) return res;
+        
+        vector<string> psf;
+        helper(s,res,psf);
+        return res;
+    }
+};
