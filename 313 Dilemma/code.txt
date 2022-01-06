@@ -1,0 +1,55 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int helper(vector<string> &arr,int pos,int mask){
+    if((mask & (mask-1)) == 0){
+        return 0;
+    }
+    if(pos < 0){
+        return 10000;
+    }
+    
+    int newmask1=0;
+    int newmask2=0;
+    int touches= 0;
+    
+    for(int i =0 ;i< arr.size(); i++){
+        
+        if((mask & (1 << i))){
+            touches++;
+            if(arr[i][pos] == '0'){
+                newmask1 |= (1<<i);
+            }else{
+                 newmask2 |= (1<<i);
+            }
+        }
+    }
+    
+    int ans = helper(arr,pos-1,mask);
+    ans = min(ans, helper(arr,pos-1,newmask1) +  helper(arr,pos-1,newmask2)+ touches);
+    
+ 
+    return ans;
+}
+int solved(vector<string> & arr,int n){
+
+    return helper(arr,arr[0].length()-1,((1 << n+1) -1));
+}
+int main(){
+    
+    // write your code here
+    int t;
+    cin >> t;
+    while(t--){
+        int n;
+        cin >> n;
+        vector<string> arr(n);
+        
+        for(auto &a : arr){
+            cin >>a;
+        }
+        
+        cout<< solved(arr,n) << endl;
+    }
+    return 0;
+}
