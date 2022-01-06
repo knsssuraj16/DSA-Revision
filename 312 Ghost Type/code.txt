@@ -1,0 +1,57 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long int
+
+vector<int> submask[22];
+
+bool vis[1 << 22];
+
+ll dp[1 << 22];
+
+ll solved(int n,int mask){
+    
+    if (mask == (1 << (n + 1)) - 2)
+        return 1;
+    if (vis[mask])
+        return dp[mask];
+    vis[mask] = 1;
+    
+    
+    ll &tot = dp[mask];
+     tot = 0;
+    int x;
+    for(int i =1; i <= n; i++){
+        if((mask & (1<< i)) == 0){
+            bool ok = 1;
+            for(int j = 0; j< submask[i].size(); j++){
+                x= submask[i][j];
+                if((mask & (1 << x)) == 0){
+                    ok = 0;
+                }
+            }
+            
+            if(ok){
+                tot+= solved(n,mask | (1 << i));
+            }
+        }
+    }
+    
+   
+    
+   return tot;
+}
+int main(){
+    
+    // write your code here
+    for(int i =1 ; i<= 20; i++){
+        for(int j =i-1; j>=1; j--){
+            if((i & j) == j){
+                submask[i].push_back(j);
+            }
+        }
+    }
+    int n;
+    cin >> n;
+    cout<< solved(n,0);
+    return 0;
+}
