@@ -1,0 +1,55 @@
+#include<bits/stdc++.h>
+using namespace std;
+int mod = 1e9+7;
+int helper(string &A,string &B,string &C,int i,int j,int k, vector<vector<vector<int>>> &dp){
+    
+    if(k == 0){
+        return 1;
+    }
+    if(i == 0 && j ==0 ){
+        return 0;
+    }
+    if( dp[i][j][k] != -1){
+        return  dp[i][j][k] ;
+    }
+    
+    int count =0;
+    for(int z =i; z >0 ; z--){
+        if(C[k-1] == A[z-1]){
+       		 count =(count % mod + helper(A,B,C,z-1,j,k-1,dp) % mod)%mod;
+    	}
+    }
+    
+     for(int z =j; z >0 ; z--){
+        if(C[k-1] == B[z-1]){
+       		 count = (count% mod + helper(A,B,C,i,z-1,k-1,dp) % mod)%mod;
+    	}
+    }
+    
+    dp[i][j][k] = count;
+    
+    return count;
+}
+
+int solved(string &A,string &B, string &C){
+    int i = A.length();
+    int j = B.length();
+    int k = C.length();
+    
+    vector<vector<vector<int>>> dp(i+1,vector<vector<int>>(j+1,vector<int>(k+1, -1)));
+    
+    return helper(A,B,C,i,j,k,dp);
+}
+int main(){
+    
+    // write your code here
+    int t;
+    cin >> t;
+    while(t--){
+        string A,B,C;
+        cin >> A >>B >> C;
+        
+        cout << solved(A,B, C)<<endl;
+    }
+    return 0;
+}
