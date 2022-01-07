@@ -1,0 +1,32 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int seives(int n){
+    vector<bool> seiv(n+1,true);
+    seiv[0]= false;
+    seiv[1]= false;
+    for(int i =2; i*i <=n; i++){
+        if(seiv[i]){
+            for(int j =i*i; j<=n; j+=i){
+                seiv[j] =false;
+            }
+        }
+    }
+    
+    int count =0;
+    for(int i=0;i<=n ;i++){
+        if(seiv[i]){
+            count++;
+        }
+    }
+    return count;
+}
+
+int main(){
+    
+    // write your code here
+  int n; 
+    cin >> n;
+    cout << seives(n)<<endl;
+    return 0;
+}
