@@ -1,0 +1,35 @@
+class Solution {
+public:
+    int helper(vector<vector<int>>&grid,int r1i,int r1j,int r2i,int r2j,  vector<vector<vector<int>>>& dp){
+        if(r1i == grid.size() || r1j < 0 || r2j < 0 || r1j >=grid[0].size()|| r2j >=grid[0].size()){
+            
+            return 0;
+        }
+        if(dp[r1i][r1j][r2j] != -1){
+            return dp[r1i][r1j][r2j];
+        }
+      
+        int tot = 0;
+        for(int i =-1; i<=1; i++){
+            for(int j =-1; j<=1; j++){
+                if((r1j + i )!= (r2j + j)){
+                    
+                   int rob1= grid[r1i][r1j]+ grid[r2i][r2j] +  helper(grid, r1i+1, r1j+i, r2i+1, r2j+j,dp);
+                    tot = max(tot, rob1);
+                }
+                
+            }
+        }
+        
+        dp[r1i][r1j][r2j] = tot;
+        return tot;
+        
+        
+    }
+    int cherryPickup(vector<vector<int>>& grid) {
+       vector<vector<vector<int>>> dp(grid.size()+1,vector<vector<int>> (grid[0].size()+1, vector<int>(grid[0].size()+1, -1)));
+        
+        return helper(grid,0,0,0,grid[0].size()-1,dp);
+        
+    }
+};
