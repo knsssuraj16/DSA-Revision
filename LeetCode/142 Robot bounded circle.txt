@@ -1,0 +1,40 @@
+class Solution {
+public
+    int x=0,y=0,d=0;
+    void perform(char c){
+        if(c=='G'){
+            d=d%4;
+            switch (d){
+                case 0
+                 y++;
+                break;
+                case 1
+                 x--;
+                break;
+                case 2
+                 y--;
+                break;
+                case 3
+                 x++;
+                break;
+            default
+                break;
+            }
+        }else{
+            if(c == 'L'){
+                d++;
+            }else{
+                d+=3;
+            }
+        }
+    }
+    bool isRobotBounded(string instructions) {
+        int j =4;
+        while(j--){
+            for(int i =0 ;i instructions.size(); i++){
+                perform(instructions[i]);
+            }
+        }
+        return (x ==0 && y ==0) ;
+    }
+};
