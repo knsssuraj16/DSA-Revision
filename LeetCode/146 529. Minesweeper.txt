@@ -1,0 +1,67 @@
+class Solution {
+public:
+    // int r[4]={0,1,-1,0};
+    // int c[4]={1,0,0,-1};
+    
+    int r1[8]={0,1,-1,0,1,1,-1,-1};
+    int c1[8]={1,0,0,-1,1,-1,1,-1};
+    
+
+    
+    int checkBomb(vector<vector<char>>& board,int a,int b){
+        int n = board.size();
+        int m = board[0].size();
+                 int count= 0;
+                    for(int j= 0;j <8; j++){
+                        int x = r1[j]+a;
+                        int y = c1[j]+b;
+                        if(x >= 0 && y>= 0 && x<n && y<m && board[x][y] == 'M'){
+                                count++;                        
+                            }
+                    }
+        
+        // cout << count;
+                    return count;
+                 
+    }
+  
+    void helper(vector<vector<char>>& board,int row,int col){
+        
+        if(board[row][col] == 'M'){
+            board[row][col] = 'X';
+            return ;
+            
+        }
+        int n = board.size();
+        int m = board[0].size();
+        
+        int count = checkBomb(board,row,col);
+        
+         if(count == 0){
+               board[row][col]='B'; 
+              for(int i =0; i<8; i++){
+                    int x = r1[i]+row;
+                    int y = c1[i]+col;
+                    if(x >= 0 && y>= 0 && x<n && y<m &&( board[x][y] == 'E')){
+                             helper(board,x,y);   
+                        }
+             
+             }
+         }else{
+           
+              board[row][col]='0'+count;   
+          
+         }
+       
+        
+       
+        
+    } 
+    vector<vector<char>> updateBoard(vector<vector<char>>& board, vector<int>& click) {
+            int i = click[0];
+            int j = click[1];
+        
+         helper(board,i,j);  
+        return board;
+    }
+};
