@@ -1,0 +1,30 @@
+class Solution {
+public:
+    
+    static bool comparator(vector<int>& a, vector<int> & b){
+        return a[1] < b[1];
+    }
+    
+    int findMinArrowShots(vector<vector<int>>& points) {
+        
+        if(points.size() == 1){
+            return 1;
+        }
+        sort(points.begin(),points.end(),comparator);
+        
+        int last = 0;
+        int counter = 0;
+        for(int i =1 ;i< points.size();i++){
+            // cout<< points[i][0] << " "<< points[i][1] << " " << last <<endl;
+            if( points[last][1] < points[i][0]){
+               counter++;
+                last = i;
+            }
+        }
+        
+        if(last <= points.size()-1){
+            counter++ ;
+        }
+        return counter;
+    }
+};
