@@ -1,0 +1,32 @@
+class Solution {
+public
+    int myAtoi(string s) {
+        
+        
+        int n= s.length();
+        long long res=0;
+        int check=1;
+        int i=0;
+        
+        while(s[i]==' ' && in)
+            i++;
+        if(s[i]== '-'  s[i]== '+'){
+            check=s[i]== '-'  -1  1;
+            i++;
+        }
+        while(s[i] = '0' && s[i] = '9' && in){
+            
+            
+            
+             res=(res10) +(s[i]-'0');
+             if(resINT_MAX  resINT_MIN){
+                 return check == -1 INT_MININT_MAX;
+             }
+            i++;
+        }
+        return checkres; 
+            
+
+        
+    }
+};
