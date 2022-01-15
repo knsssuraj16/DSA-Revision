@@ -1,0 +1,69 @@
+class Solution {
+public:
+   int helper(vector<int>&  arr,int val,unordered_map<int,vector<int>>& mp){
+        
+       int count =0 ;
+       
+       queue<int> q;
+       q.push(val);
+       while(q.size() > 0){
+          
+           int n = q.size();
+          
+           bool flag = false;
+           count++;
+           
+           for(int j=0; j< n; j++){
+                int idx = q.front();
+                q.pop();
+               
+               
+              
+             
+               
+                if( (idx-1)>=0 && mp.find(arr[idx-1]) != mp.end())
+                     q.push(idx-1);
+               
+                if((idx+1) < arr.size() &&  mp.find(arr[idx+1]) != mp.end()){
+                       if(idx+1 == arr.size()-1 ){
+                          return count;
+                     }
+                    q.push(idx+1);
+                    
+                }
+                     
+                       
+               
+               for(auto i: mp[arr[idx]]){
+                   if(idx != i){
+                          if(i == arr.size()-1 ){
+                             return count;
+                        }
+                     q.push(i);
+                     
+                   }
+               }
+               
+                mp.erase(arr[idx]);   
+               
+              
+              
+               
+            }        
+          
+           
+       } 
+       
+        return count;
+    }
+    int minJumps(vector<int>& arr) {
+        if(arr.size() <=1 ){
+            return 0;
+        }
+     unordered_map<int,vector<int>> mp;
+        for(int i =0 ;i< arr.size(); i++){
+            mp[arr[i]].push_back(i);
+        }
+        return helper(arr,0,mp);
+    }
+};
