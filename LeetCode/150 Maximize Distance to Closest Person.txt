@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int checkLeft(vector<int>& seats,int i){
+        int l= i;
+        while(i >= 0 && seats[i] != 1){
+            i--;
+        }
+        return (i ==-1 ? INT_MAX : (l-i));
+        
+    }
+    
+    int checkRight(vector<int>& seats,int i){
+        int l= i;
+        while(i <seats.size() && seats[i] != 1){
+            i++;
+        }
+        return (i ==seats.size() ? INT_MAX : (i-l));
+        
+    }
+    int maxDistToClosest(vector<int>& seats) {
+        int high =0;
+        for(int i =0;i< seats.size(); i++){
+            
+            if(seats[i] == 0){
+                int left = checkLeft(seats,i);
+                int right = checkRight(seats,i);
+                int mn = min(left,right);
+                high = max(high,mn);
+            }
+        }
+        return high;
+    }
+};
