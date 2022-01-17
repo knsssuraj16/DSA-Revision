@@ -1,0 +1,44 @@
+class Solution {
+public:
+
+    bool wordPattern(string pattern, string s) {
+        
+        
+        
+        istringstream iss(s,istringstream::in);
+        string word;
+        int i =0;
+        
+        unordered_map<string,char> mps;
+        unordered_map<char,string> mpc;
+        while(iss >> word){
+          
+            
+            if(i >=pattern.size() ){
+                return false;
+            }
+            
+             
+            if(mps.find(word) != mps.end() && mps[word] !=pattern[i] ){
+                return false;
+            } 
+            if(mpc.find(pattern[i]) != mpc.end() && mpc[pattern[i]] !=word ){
+                return false;
+            }
+            
+            mps[word] = pattern[i];
+            mpc[pattern[i]] = word;
+            
+            i++;
+        }
+        
+         if(i != pattern.size() ){
+                return false;
+            }
+    return true;
+
+        
+       
+      
+    }
+};
