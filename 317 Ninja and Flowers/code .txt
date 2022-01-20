@@ -1,0 +1,41 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+    
+    // write your code here
+    int n;
+    cin>> n;
+	 vector<int> seive(n+2,1);
+    seive[0] = 0;
+	seive[1] = 0;
+    for(int i =0; i< n+2; i++){
+        
+        if( seive[i] == 1){
+           
+            int count = 2;
+            for(int j =2 ;j*i < n+2; j++){
+                seive[j * i] = count;
+            }
+        }
+    }
+    vector<int> res;
+    
+    for(int i =2;i<n+2; i++){
+        
+       if(seive[i] > res.size()){
+           res.push_back(1);
+       }else{
+           res[seive[i]-1]++;
+       }
+        // cout << seive[i] <<" ";
+        
+    }
+    
+    cout << res.size() <<endl;
+    sort(res.begin(),res.end());
+    
+    for(auto a : res){
+        cout << a<<" ";
+    }
+    return 0;
+}
