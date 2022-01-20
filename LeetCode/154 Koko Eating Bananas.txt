@@ -1,0 +1,38 @@
+class Solution {
+public:
+    bool check(int mid, vector<int>& piles,int h){
+        for(int i =0; i< piles.size(); i++){
+            if(piles[i] < mid){
+                h--;
+            }else{
+                if(piles[i] % mid == 0){
+                    h -= (piles[i]/mid);
+                }else{
+                     h -= (piles[i]/mid);
+                    h--;
+                }
+            }
+            
+            if( h<0){
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    int minEatingSpeed(vector<int>& piles, int h) {
+        int left = 1;
+        int right = 1e9;
+        while(left<=right){
+            int mid = left + ((right-left)/2);
+            
+            if(check(mid,piles,h)){
+                right = mid-1;
+            }else {
+                left = mid +1;
+            }
+        }
+        
+        return left;
+    }
+};
