@@ -1,0 +1,30 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+    
+    // write your code here
+    int n;
+    cin >> n;
+    vector<bool> prime(n+1,true);
+    prime[0]=false;
+    prime[1]= false;
+    for(int i =2 ; i<= n; i++){
+        for(int j =2; i*j <=n; j++){
+            prime[i*j]= false;
+        }
+    }
+    
+    int last =2;
+    int count  =0;
+    for(int i =3; (i + last + 1) <= n; i++){
+        if(prime[i]){
+        	if(prime[last + i +1]){
+                count++;
+            }    
+            last = i;
+        }
+         
+    }
+    cout << count<<endl;
+    return 0;
+}
