@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        int gases =0;
+        
+        for(int i =0 ;i<gas.size(); i++){
+            gases +=(gas[i]-cost[i]);
+            
+        }
+        if(gases<0) return -1;
+        
+        int start =0;
+        int tot =0;
+        for(int i =0;i<gas.size(); i++){
+         
+             if(tot < 0){
+                tot =0;
+                start =i;
+            }
+            tot += gas[i]-cost[i];
+            
+           
+        }
+        return start;
+    }
+};
