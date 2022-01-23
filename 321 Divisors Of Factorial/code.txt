@@ -1,0 +1,42 @@
+#include<bits/stdc++.h>
+using namespace std;
+int mod = 1e9+7;
+int solved(int n){
+   vector<bool> seive(n+1,true);
+    seive[0]= false;
+    seive[1]= false;
+    for(int i =2 ; i<= n; i++){
+        if(seive[i] ){
+            for(int j =2; j * i<=n; j++ ){
+                seive[i*j]= false;
+            }
+        }
+    }
+    
+    long long ans=1;
+    for(int i =2; i< n+1 ;i++){
+        if(seive[i]){
+            // cout<< i <<endl;
+               int loc =1;
+            for(int j = 1; pow(i,j) <= n; j++){
+                int div = n/pow(i,j);
+                loc += div;
+            }
+            ans =(ans% mod *  loc%mod)% mod;
+         
+        }
+    }
+    return ans;
+}
+int main(){
+    
+    // write your code here
+    int t;
+    cin >>t ;
+    while(t--){
+        int n;
+        cin >>n;
+        cout << solved(n)<<endl;
+    }
+    return 0;
+}
