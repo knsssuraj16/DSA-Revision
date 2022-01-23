@@ -1,0 +1,36 @@
+import java.util.Scanner;
+
+public class Main {
+
+static class Triplet{
+    int x;
+    int y;
+    int gcd;
+    Triplet(int x,int y, int gcd){
+        this.x = x;
+        this.y = y;
+        this.gcd = gcd;
+    }
+}
+
+public static Triplet solved(int a, int b){
+    
+    if(b == 0){
+        return new Triplet(1,0,a);
+    }
+    
+    Triplet curr = solved(b,a%b);
+    
+    return new Triplet(curr.y,curr.x - (curr.y * (a/b)),curr.gcd);
+}
+	public static void main(String[] args) {
+	    Scanner scan = new Scanner(System.in);
+	    int a =scan.nextInt();
+	    int b = scan.nextInt();
+        
+        Triplet ans = solved(a,b);	 
+        System.out.print(ans.x +" ");
+        System.out.print(ans.y);
+        
+	}
+}
