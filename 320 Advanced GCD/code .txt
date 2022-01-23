@@ -1,0 +1,27 @@
+#include<bits/stdc++.h>
+using namespace std;
+int gcd(int a, string b){
+    if(a == 0){
+        return stoi(b);
+    }
+    int ans =0;
+    for(int i =0;i<b.length(); i++){
+        ans = ans * 10 + (b[i]-'0');
+        ans %= a;
+    }
+    
+    return gcd(ans,to_string(a));
+}
+int main(){
+    
+    // write your code here
+    int t; 
+    cin >> t;
+    while(t--){
+        int a;
+        string b;
+        cin >> a >> b;
+        cout << gcd(a,b)<<endl;
+    }
+    return 0;
+}
