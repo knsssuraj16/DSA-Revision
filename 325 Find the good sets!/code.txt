@@ -1,0 +1,40 @@
+#include<bits/stdc++.h>
+using namespace std;
+int solved(vector<int> arr){
+    vector<int> seive(100001,0);
+    sort(arr.begin(),arr.end());
+    for(int i =0;i< arr.size(); i++){
+        seive[arr[i]] = 1;
+    }
+    
+     for(int i =0;i< arr.size(); i++){
+         for(int j = 2; j * arr[i]< 100001; j++){
+                 if(seive[arr[i] * j] > 0)
+                 seive[arr[i] * j] += seive[arr[i]];
+          }
+    }
+    int tot =0;
+    for(int i =0;i< seive.size(); i++){
+        // cout << seive[i] <<" "<<endl;
+        tot+= seive[i];
+    }
+    return tot;
+}
+int main(){
+    
+    // write your code here
+    int t;
+    cin >> t;
+    while(t--){
+	int n;
+        cin >> n;
+        vector<int> arr(n);
+        for(int i =0 ;i< n; i++){
+            cin >>  arr[i];
+            
+        	}
+        
+        	cout << solved(arr)<<endl;
+    	}
+    return 0;
+}
