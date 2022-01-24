@@ -1,0 +1,45 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define glob 1000001
+int main(){
+    
+    // write your code here
+    
+	
+    
+    int t; 
+    cin >> t;
+    
+    vector<int> cubeFree(glob,0);
+   
+    
+    cubeFree[0]=-1;
+    for(int i =2; i<= 100; i++){
+        if(cubeFree[i] == 0){
+            int cube = i*i*i;
+            
+            for(int j =1;j*cube <= glob;j++){
+                cubeFree[j * cube]= -1;
+            }
+            
+        }
+    }
+    int k =1;
+    for(int i =0; i<glob; i++){
+        if(cubeFree[i] ==0){
+            cubeFree[i]= k++;
+        }
+    }
+    
+    while(t--){
+        int n;
+        cin >> n;
+        if(cubeFree[n] == -1){
+            cout << "Not Cube Free" <<endl;
+        }else{
+            cout << cubeFree[n]<<endl;
+        }
+        
+    }
+    return 0;
+}
