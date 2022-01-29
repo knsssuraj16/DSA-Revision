@@ -1,0 +1,125 @@
+#include<bits/stdc++.h>
+#define int long long
+#define PII pair<int,int>
+#define f first
+#define s second
+#define mk make_pair
+#define pb push_back
+using namespace std;
+
+
+void findFactor(int k, vector<PII> &mp){
+   
+    for(int z = 2; z*z<=k ;z++){
+        
+        int count =0;
+      	while(k != 1){
+                if(k % z != 0){
+                    break;
+                }
+				k = k / z;
+                count++;
+        	}    
+        if(count > 0){
+            mp.pb(mk(z,count));
+        }
+    }
+    if(k != 1){
+        mp.pb(mk(k,1));
+    }
+}
+bool arrGreater(vector<PII>& mpForArr,vector<PII>& mpFork){
+    
+   	for(int i =0; i< mpFork.size(); i++){
+        if(mpForArr[i].s < mpFork[i].s){
+            return false;
+        }
+    }
+    return true;
+}
+void removePrimeOFi(vector<PII>& mpForArr,int k){
+    
+   	for(int i =0; i< mpForArr.size(); i++){
+    	// cout << k << " "<< (k / mpFork[i].f) << endl;
+        if((k % mpForArr[i].f) == 0){
+            int count =0;
+            while(k % mpForArr[i].f == 0){
+    		
+          
+				k = k / mpForArr[i].f;
+                count++;
+        	}  
+            mpForArr[i].s -= count;
+        }
+          // cout << "(" <<mpForArr[i].f << "," <<mpForArr[i].s<< ")"<<endl;
+    }
+}
+
+void findFactors(vector<PII>& mpForArr,int k){
+ 
+   	for(int i =0; i< mpForArr.size(); i++){
+    	// cout << k << " "<< (k / mpFork[i].f) << endl;
+        if((k % mpForArr[i].f) == 0){
+            int count =0;
+            while(k % mpForArr[i].f == 0){
+    			
+             
+				k /= mpForArr[i].f;
+                count++;
+        	}  
+            mpForArr[i].s += count;
+        }
+          // cout << "(" <<mpForArr[i].f << "," <<mpForArr[i].s<< ")"<<endl;
+    }
+      
+   
+}
+signed main(){
+	// Write your code here
+    int n, k;
+    cin >> n >> k;
+
+    vector<int> arr(n);
+    for(int i =0 ;i< n; i++){
+        cin >> arr[i];
+    }
+    
+    vector<PII> mpFork;
+    
+    findFactor(k,mpFork);
+    
+	vector<PII> mpForArr = mpFork;
+    
+    for(int i =0; i<mpForArr.size(); i++){
+        mpForArr[i].s = 0;
+    }
+   
+
+	
+    int  j=-1, i =-1;
+    
+    int tot =0;
+    while(i<n){
+      bool check = arrGreater(mpForArr,mpFork);
+         // cout << j <<" "<< i <<" "<< check<<endl;
+         //         for(auto a : mpForArr){
+         //        cout <<"arr" << a.first << " " << a.second<< " arr \n"; 
+         //    }
+        if(check){
+           
+            tot += (n-(i));
+            j++;
+            if( j < n)
+            removePrimeOFi(mpForArr,arr[j]);
+            
+        }else{
+            i++;
+             if(i < n)
+            findFactors(mpForArr,arr[i]);
+             
+        }
+        
+    }
+    cout << tot <<endl;
+	return 0;
+}
