@@ -1,0 +1,69 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+    
+    // write your code here
+    int n; 
+    cin >> n;
+    vector<bool> check(n+1,false);
+ 
+    // ans.push_back(n);
+    
+    vector<int> seive(n+1,0);
+    for(int  i =2 ; i< n+1; i++){
+        if(seive[i] == 0){
+            seive[i] = i;
+            for(int j =2; j* i<=n ; j++){
+                if(seive[j*i] == 0) seive[j*i] = i;
+            }
+        }
+    } 
+    // for(int  i =2 ; i< n+1; i++){
+    //    cout << i << " "<< seive[i]<<endl;
+    // }
+    
+    
+    for(int i =n; i>= 1; i--){
+        
+        vector<int> ans;
+        
+        if(check[i])
+            continue;
+        
+         if(check[i]== false){
+            ans.push_back(i); 
+            check[i] = true;
+        }
+        
+        int lf = seive[i];
+        
+        int div = i;
+        while(div != 1){
+            int temp = i;
+            while(temp > 1){
+                temp -= lf;
+                if(check[temp] == false && temp != 0){
+                    ans.push_back(temp);
+                    check[temp]= true;
+                }
+            }
+            while((div % lf)== 0){
+                // cout << div << endl;
+                  div = div /lf;
+                
+            }
+            lf = seive[div];
+          
+        }
+        sort(ans.begin(),ans.end(),greater<int>());
+        for(int i =0;i< ans.size(); i++){
+            cout << ans[i]<< " ";
+        }
+      	
+       
+    }
+    // ans.push_back(1);
+    
+    
+    return 0;
+}
