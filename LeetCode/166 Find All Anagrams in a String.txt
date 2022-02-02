@@ -1,0 +1,35 @@
+class Solution {
+public:
+    bool checkString(int start ,int end, vector<int> vec,string &s){
+     
+        for(int i =start;i<end; i++){
+            vec[s[i]-'a']--;
+        }
+    
+       for(int i =0; i<26; i++){
+           if(vec[i] != 0){
+               return false;
+           }
+     
+        }
+        return true;
+    }
+    vector<int> findAnagrams(string s, string p) {
+   
+        int k = p.size();
+        vector<int> vec(26,0);
+        for(int i =0;i<p.size(); i++){
+            vec[p[i]-'a']++;
+        }
+        vector<int> res;
+        for(int i = 0; i+(k-1)<s.size(); i++){
+            if(checkString(i,i+k,vec,s)){
+                
+                res.push_back(i);
+              
+            }
+        }
+        
+        return res;
+    }
+};
