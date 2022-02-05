@@ -1,0 +1,64 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define MAX 100001
+#define int long long 
+void seive( vector<int>& prime){
+	vector<bool> isPrime(MAX,true);
+    
+    for(int i =2; i <= MAX; i++){
+        if(isPrime[i]){
+            prime.push_back(i);
+            for(int j =2 ; j * i <MAX;j++){
+                isPrime[i*j] = false;
+            }
+        }
+    }
+}
+
+void solved(int l,int r,vector<int> &prime){
+    vector<bool> isPrime(r-l+1,true);
+    vector<int>ans;
+    for(int i = 0; prime[i] * prime[i]<= r ; i++){
+        int pn = prime[i];
+        int base = ((l/pn) * pn);
+        if(base < l){
+            base += pn;
+        }
+     
+        for(int j = base; j <= r; j+=pn)
+        {
+            isPrime[j-l]= false;
+        }
+        
+           if(base == pn){
+               isPrime[base-l]=true;
+           }
+    }
+    
+    for(int i =0; i<r-l+1; i++){
+        if(isPrime[i] && i+l != 1){
+            cout << i+l <<" ";
+        }
+    }
+    
+    
+        // cout <<"prime " << isPrime[0]<<endl;
+    
+    
+    
+}
+signed main(){
+    
+    vector<int> prime;
+    seive(prime);
+    // write your code here
+    int t;
+    cin >> t;
+    while(t--){
+        int l,r;
+        cin>> l >> r;
+         solved(l,r,prime);
+        cout <<endl;
+    }
+    return 0;
+}
