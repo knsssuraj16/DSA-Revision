@@ -1,0 +1,46 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define limit 1000000
+#define int long long 
+
+int solveLCM(int n,  vector<int>& dphi){
+	int z= 0;
+    return ((n* (dphi[n]-1))/2) +n;
+}
+signed main(){
+    
+    // write your code here
+    vector<int> phi(limit);
+    vector<int> dphi(limit,1);
+    for(int i =0; i< limit; i++){
+        phi[i] =i;
+    } 
+    for(int i =2; i< limit; i++){
+        if(i == phi[i]){
+            phi[i]= i-1;
+            for(int j =2; j* i < limit; j++){
+                phi[i*j] = phi[i*j] - phi[i*j]/i;
+                
+            }
+                        
+        }
+    }
+  
+    
+    for(int i =2; i<=limit ; i++){
+       for(int j =1; j* i <= limit; j++){
+           		dphi[i*j] +=   phi[i] * i;
+            }
+    } 
+  
+    
+    
+    int t;
+    cin >> t;
+    while(t--){
+        int n;
+        cin >> n;
+        cout << solveLCM(n,dphi)<<endl;
+    }
+    return 0;
+}  
