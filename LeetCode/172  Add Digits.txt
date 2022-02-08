@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int addDigits(int num) {
+        if(num <= 9){
+            return num;
+        }
+        
+        int temp = num;
+        int tot = 0;
+        while(temp){
+            tot += (temp % 10);
+            temp /= 10;
+            // cout << tot<<endl;
+        }
+        
+        return addDigits(tot);
+        
+    }
+};
