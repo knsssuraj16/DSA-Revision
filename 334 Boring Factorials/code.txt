@@ -1,0 +1,33 @@
+/* Time complexity: O(P*log(P)) Space complexity: O(log(P)) where P is the prime number given in the question */
+#include <bits/stdc++.h>
+using namespace std; 
+typedef long long int ll;
+ll pow1(ll a, ll b, ll c) { 
+    ll ans = 1LL; 
+    while (b > 0) {
+        if (b & 1) 
+            ans = (ans * a) % c;
+        a = (a * a) % c;
+        b = b >> 1; 
+    } 
+    return ans;
+} 
+int main() {
+    int t;
+    scanf("%d", &t);
+    while (t--) { 
+        ll n, p, i, ans, fact; 
+        fact = 1; scanf("%lld %lld", &n, &p);
+        if (n >= p) {
+            printf("0\n");
+            continue;
+        } for (i = n + 1; i <= p - 1; i++) {
+            fact = (fact * i) % p; 
+            if (fact == 0) 
+                break;
+        } 
+        ans = pow1(fact, p - 2, p); 
+        printf("%lld\n", p - ans); 
+    } 
+    return 0; 
+}
