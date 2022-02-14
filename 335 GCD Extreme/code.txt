@@ -1,0 +1,48 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define limit 100001
+#define int long long
+signed main(){
+    
+    // write your code here
+    
+    vector<int> phi(limit);
+    for(int i =0; i< limit ;i++){
+        phi[i] = i;
+    }
+    
+    for(int i = 2; i<limit; i++){
+		if(i == phi[i]){
+            phi[i] = i-1;
+	        for(int j = 2; j* i <limit ;j++){
+                phi[i*j] = phi[i*j] - phi[i*j]/i;
+            }
+        }
+    }
+    
+    vector<int> s(limit),g(limit);
+    
+    for (int i = 0; i < limit; i++)
+        s[i] = phi[i];
+    
+    for (int i = 2; i < limit; i++)
+    {
+        for (int j = 2; j * i < limit; j++)
+        {
+            s[i * j] += j * phi[i];
+        }
+    }
+    g[1] = 0;
+    for (int i = 2; i < limit; i++)
+        g[i] = g[i - 1] + s[i];
+    
+    int t;
+    cin >> t;
+    
+    while(t--){
+        int n;
+        cin >> n;
+        cout <<g[n]<<endl;
+    }
+    return 0;
+}
