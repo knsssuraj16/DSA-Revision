@@ -1,0 +1,28 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define int long long
+int solved(int n,int m){
+	int res  = 1;
+    for(int i =1; i<= n; i++){
+        res =(res* i) % m;
+    }
+    return res% m;
+}
+signed main(){
+    
+    // write your code here
+    int t;
+    cin >> t;
+    while(t--){
+        int n,m ;
+        cin >> n>>m;
+        int res = 1;
+        if((n/m)% 2 == 1){
+           res = (solved(n%m,m) * (m-1)) % m;
+        }else{
+             res = solved(n%m,m)% m;
+        }
+        cout << res <<endl;
+    }
+    return 0;
+}
