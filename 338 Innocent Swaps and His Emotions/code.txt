@@ -1,0 +1,59 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define mod 1000000007
+#define int long long
+#define max 1000001
+
+
+
+int pows(int a,int b){
+    int res = 1;
+    while(b){
+        if(b & 1){
+        	res =	(res * a)% mod;    
+        }
+		a =( a * a) % mod;        
+        b = b >> 1;
+    }
+    return res;
+}
+
+signed main(){
+    
+    // write your code here
+    
+    vector<int>facts(max,1);
+    
+    for(int i =1 ; i<max; i++){
+        facts[i] = i * facts[i-1];
+        facts[i] %=mod;
+    }
+    int t;
+    cin >> t;
+    
+    while(t--){
+        int n,k;
+        cin >> n >> k;
+        
+          if (k > n)
+        {
+            cout << endl;
+            continue;
+        }
+        
+        int ans = pows(2,k);
+        ans = (ans *  facts[n]) % mod;
+        int a = pows(facts[k], mod-2);
+        int b = pows(facts[(n-k)], mod-2);
+        
+      
+        
+        ans = (ans * a ) % mod;
+        ans = (ans * b ) % mod;
+        
+        
+        cout << ans <<endl;
+        
+    }
+    return 0;
+}
