@@ -1,0 +1,61 @@
+#include<bits/stdc++.h>
+using namespace std;
+struct job{
+    int sta,end,profit;
+};
+
+bool sorarr(struct job& a,struct job& b){
+    return a.end < b.end;
+}
+
+
+int binerSearch(vector<job> &arr, int i){
+	int s = 0, e = i-1;
+    
+    while(s<=e){
+        int mid = (s+e)/2;
+        if(arr[mid].end <= arr[i].sta){
+            if(arr[mid+1].end <= arr[i].sta){
+             	s = mid+1;
+            }else
+                return mid;
+        }else{
+            e = mid-1;
+        }
+    }
+   
+        return -1;
+   
+    
+}
+int helper(vector<job>& arr,int n,int idx,vector<int> &dp){
+    dp[0] = arr[0].profit;
+    for(int i =1 ;i< n; i++){
+        
+        int inc = arr[i].profit;
+        
+        int inidx = binerSearch(arr,i);
+        
+        
+        if(inidx != -1){
+           inc +=  dp[inidx];
+        }
+       dp[i]=  max(inc,dp[i-1]);
+        
+    }
+    return dp[n-1];
+}
+int main(){
+
+    int n;
+    cin >> n;
+    vector<job> arr(n);
+    for(int i =0; i< n; i++){
+		cin >> arr[i].sta >> arr[i].end >> arr[i].profit;
+    }
+    
+    sort(arr.begin(),arr.end(),sorarr);
+   	vector<int> dp(n+1);
+    cout << helper(arr,n,n,dp);
+    return 0;
+}
