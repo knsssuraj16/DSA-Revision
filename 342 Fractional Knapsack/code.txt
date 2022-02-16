@@ -1,0 +1,35 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define int long long 
+
+
+signed main(){
+    
+ 	int n ,we;
+    cin >> n>> we;
+    vector<pair<double,double>> arr;
+    for(int i =0; i< n; i++){
+        int a,b;
+        cin >> a>>b;
+        arr.push_back(make_pair(a / (1.0 * b),b*1.0));
+    }
+    // for(int i =0; i<n; i++){
+    //     cout << arr[i].first << arr[i].second <<endl;
+    // }
+    int i =0;
+    sort(arr.begin(),arr.end(),greater<pair<double,double>>());
+    double ans = 0.000000;
+    while( we>0 && i<n ){
+        if(arr[i].second <= we)
+        ans += (arr[i].second * arr[i].first);
+        else{
+        ans += (we * arr[i].first);
+            
+        }
+        we -= arr[i].second;
+        i++;
+    }
+    cout <<fixed<<setprecision(6)<< ans << endl;
+  
+    return 0;
+}
