@@ -1,0 +1,30 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define int long long 
+bool sortbysec(pair<int,int> &a, pair<int,int> &b){
+    return (a.second < b.second);
+}
+signed main(){
+    
+    // write your code here
+    int n;
+    cin >> n;
+    vector<pair<int,int>> act(n);
+    for(int i =0;i < n; i++){
+        cin >>act[i].first >> act[i].second;
+    }
+    
+    sort(act.begin(),act.end(),sortbysec);
+    
+    int i =0 , j=1 ,count = 1;
+    while(j<n){
+        if(act[j].first >= act[i].second){
+            i = j;
+            count++;
+         
+        }
+           j++;
+    }
+	cout << count;
+    return 0;
+}
