@@ -1,0 +1,1 @@
+{"name":"Local: segmentTree","url":"c:\\Users\\91892\\Desktop\\DSA\\AtoJLadder\\segmentTree.cpp","tests":[{"id":1645254760739,"input":"5\n1 2 3 4 5","output":"21 6 15 3 3 10 5 1 2"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\91892\\Desktop\\DSA\\AtoJLadder\\segmentTree.cpp","group":"local","local":true}
