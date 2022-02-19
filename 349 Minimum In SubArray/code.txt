@@ -1,0 +1,84 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+void buildTree(vector<int> &arr,vector<int> &tree,int start,int end,int treeNode){
+    if(start == end){
+     	tree[treeNode]=arr[start] ;
+        return;
+    }
+    
+    int mid = (start + end)/2;
+     buildTree(arr,tree,start,mid,treeNode*2);
+     buildTree(arr,tree,mid+1,end,treeNode*2+1);
+    tree[treeNode] = min(tree[treeNode*2],tree[treeNode*2+1]);
+    
+}
+
+int query(vector<int> &tree,int start ,int end, int treeNode,int left ,int right){
+    //complete inside 
+    
+    
+    //complete outside
+    if(right < start || left > end){
+        return INT_MAX;
+    }
+    
+    if(left <= start && right >= end){
+        return tree[treeNode];
+    }
+    
+    int mid = (start + end) /2;
+    int l = query(tree,start,mid,treeNode*2,left,right);
+    int r = query(tree,mid+1,end,treeNode*2+1,left,right);
+    return min(l,r);
+    // partially range and 
+}
+
+void updateTree(vector<int>& arr,vector<int> &tree,int start ,int end, int treeNode,int idx,int val){
+     if(start == end){
+         arr[idx] = val;
+     	tree[treeNode]=val ;
+        return;
+    }
+    int mid =(start + end)/2;
+    if(idx > mid){
+            updateTree(arr,tree,mid+1,end,2*treeNode +1,idx,val);
+
+    }else{
+            updateTree(arr,tree,start,mid,2*treeNode ,idx,val);
+
+    }
+    
+    tree[treeNode] = min(tree[treeNode*2],tree[treeNode*2+1]);
+}
+int main(){
+    
+    // write your code here
+    int n,q ;
+    cin >>n >>q;
+    vector<int> arr(n);
+    for(int i =0; i<n; i++){
+        cin >> arr[i];
+        
+    }
+    vector<int> tree(4*n);
+    buildTree(arr,tree,0,n-1,1);
+  
+    for(int i=0; i<q; i++){
+       
+        char c;
+        cin >> c;
+        int ii,j;
+        cin >> ii >>j;
+         // cout << i << c  <<endl;
+        if(c =='q'){
+            cout << query(tree,0,n-1,1,ii-1,j-1)<<endl;
+        }else{
+            updateTree(arr,tree,0,n-1,1,ii-1,j);
+        }
+    }
+    cout << endl;
+  
+     
+    return 0;
+}
