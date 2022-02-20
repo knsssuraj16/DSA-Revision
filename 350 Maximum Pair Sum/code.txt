@@ -1,0 +1,97 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+void buildTree(vector<int> &arr,vector<pair<int,int>> &tree,int start,int end,int treeNode){
+    if(start == end){
+     	tree[treeNode]=make_pair(arr[start],INT_MIN); ;
+        return;
+    }
+    
+    int mid = (start + end)/2;
+     buildTree(arr,tree,start,mid,treeNode*2);
+     buildTree(arr,tree,mid+1,end,treeNode*2+1);
+    
+    pair<int,int> left = tree[treeNode*2];
+    pair<int,int> right = tree[treeNode*2+1];
+    tree[treeNode] = make_pair(max(left.first,right.first),min(max(left.first,right.second), max(left.second,right.first)));
+    
+}
+
+pair<int,int> query(vector<pair<int,int>> &tree,int start ,int end, int treeNode,int ll ,int rr){
+    //complete inside 
+    
+    
+    //complete outside
+    if(rr < start || ll > end){
+        return make_pair(INT_MIN,INT_MIN);
+    }
+    
+    if(ll <= start && rr >= end){
+        return tree[treeNode];
+    }
+    
+    int mid = (start + end) /2;
+    pair<int,int> left = query(tree,start,mid,treeNode*2,ll,rr);
+    pair<int,int> right = query(tree,mid+1,end,treeNode*2+1,ll,rr);
+    
+    pair<int,int> ans = make_pair(max(left.first,right.first),min(max(left.first,right.second), max(left.second,right.first)));
+  
+    return ans;
+    // partially range and 
+}
+
+void updateTree(vector<int>& arr,vector<pair<int,int>> &tree,int start ,int end, int treeNode,int idx,int val){
+     if(start == end){
+         arr[idx] = val;
+     	tree[treeNode]=make_pair(val,INT_MIN) ;
+        return;
+    }
+    int mid =(start + end)/2;
+    if(idx > mid){
+            updateTree(arr,tree,mid+1,end,2*treeNode +1,idx,val);
+
+    }else{
+            updateTree(arr,tree,start,mid,2*treeNode ,idx,val);
+
+    }
+    
+   pair<int,int> left = tree[treeNode*2];
+    pair<int,int> right = tree[treeNode*2+1];
+    tree[treeNode] = make_pair(max(left.first,right.first),min(max(left.first,right.second), max(left.second,right.first)));
+    
+}
+int main(){
+    
+    // write your code here
+    int n,q ;
+    cin >>n;
+    vector<int> arr(n);
+    for(int i =0; i<n; i++){
+        cin >> arr[i];
+        
+    }
+    vector<pair<int,int>> tree(4*n);
+    buildTree(arr,tree,0,n-1,1);
+    // for(int i =0 ; i< 2*n; i++){
+    //     cout << "("<< tree[i].first <<","<<tree[i].second<< ")"<<endl;
+    // }
+    cin >>q;
+    for(int i=0; i<q; i++){
+       
+        char c;
+        cin >> c;
+        int ii,j;
+        cin >> ii >>j;
+         // cout << i << c  <<endl;
+        if(c =='Q'){
+            pair<int,int> ans = query(tree,0,n-1,1,ii-1,j-1);
+            cout << (ans.first + ans.second) <<endl;
+        }else{
+            updateTree(arr,tree,0,n-1,1,ii-1,j);
+        }
+    }
+    cout << endl;
+  
+     
+    return 0;
+}
