@@ -1,0 +1,113 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+
+struct Node{
+    int bs;
+    int bsuff;
+    int bpre;
+    int sum;
+};
+
+Node* query(vector<Node*> &tree,int start ,int end, int treeNode,int left ,int right){
+    //completely inside : start and end should be in between left and right 
+    if(left <= start && right >= end){
+        return tree[treeNode];
+    }
+    //completely outside
+    if(right < start || left > end){
+        Node *n = new Node();
+        n->bs =-100000;
+        n->bsuff =-100000;
+        n->bpre =-100000;
+        n->sum =-100000;
+        return n;
+    }
+    // partially insidde and partially outside;
+    int mid = (start +  end) / 2;
+
+   Node* lef = query(tree,start,mid,treeNode*2,left,right);
+   Node* rig = query(tree,mid+1,end,treeNode*2+1,left,right);
+
+    	Node *res = new Node();
+    
+    	res->bs = max(lef->bs,rig->bs);
+    	res->bs = max(res->bs,lef->bsuff + rig->bpre);
+    	res->bs = max(res->bs,lef->bsuff + rig->sum);
+    	res->bs = max(res->bs,lef->sum + rig->bpre);
+    	
+    		res->bpre = max(lef->bpre,
+                       lef->sum+rig->bpre);
+    
+    	res->bsuff = max(rig->bsuff,
+                         rig->sum+lef->bsuff);
+    
+		res->sum = rig->sum + lef->sum;
+    
+    return (res);
+
+}
+
+
+
+void buildTree(vector<Node*> &tree,int start,int end,  vector<int> &arr,int treeNode){
+    if(start  == end){
+        Node *n = new Node();
+        n->bs =arr[start];
+        n->bsuff =arr[start];
+        n->bpre =arr[start];
+        n->sum =arr[start];
+        tree[treeNode]= n;
+        return;
+    }
+    int mid = (start + end) / 2;
+
+        buildTree(tree,start,mid,arr,2*treeNode);
+        buildTree(tree,mid+1,end,arr,2*treeNode +1);
+
+    	Node *lef = tree[treeNode * 2];
+    	Node *rig = tree[treeNode * 2 + 1 ];
+    	Node *res = new Node();
+    
+    	res->bs = max(lef->bs,rig->bs);
+    	res->bs = max(res->bs,lef->bsuff + rig->bpre);
+    	res->bs = max(res->bs,lef->bsuff + rig->sum);
+    	res->bs = max(res->bs,lef->sum + rig->bpre);
+    	
+    		res->bpre = max(lef->bpre,
+                       lef->sum+rig->bpre);
+    
+    	res->bsuff = max(rig->bsuff,
+                         rig->sum+lef->bsuff);
+    
+		res->sum = rig->sum + lef->sum;
+    
+    	  tree[treeNode]= res;
+
+}
+
+int main(){
+    
+    // write your code here
+   
+    int n; 
+    cin >> n;
+    vector<int> arr(n);
+    for(int i =0; i< n ;i++){
+        cin >> arr[i];
+    }
+    
+     vector<Node*> tree(4*n);
+    buildTree(tree,0,n-1,arr,1);
+    
+    
+    int q;
+    cin >>q;
+    for(int i =0; i< q; i++){
+        int x,y;
+        cin >> x >>y;
+        Node * ans = query(tree,0,n-1,1,x-1,y-1);
+         cout <<(ans ->bs)<< endl;
+    }
+    return 0;
+}
