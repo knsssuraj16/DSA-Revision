@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int titleToNumber(string c) {
+        int tot = 0;
+        int count = 1;
+        for(int i = c.size()-2; i>=0;i--){
+            int loc = (c[i]-'A') +1;
+            loc = pow(26,count) * loc;
+            tot += loc;
+            count++;
+        }
+          int loc = (c[c.size()-1]-'A') +1;
+        return tot+loc;
+    }
+};
