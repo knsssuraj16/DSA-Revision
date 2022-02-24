@@ -1,0 +1,55 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int query(vector<int> &tree,int start ,int end, int treeNode,int left ,int right){
+    //complete inside 
+    
+    
+    //complete outside
+    if(right < start || left > end){
+        return INT_MIN;
+    }
+    
+    if(left <= start && right >= end){
+        return tree[treeNode];
+    }
+    
+    int mid = (start + end) /2;
+    int l = query(tree,start,mid,treeNode*2,left,right);
+    int r = query(tree,mid+1,end,treeNode*2+1,left,right);
+    return max(l,r);
+    // partially range and 
+}
+
+void buildTree(vector<int> &arr,vector<int> &tree,int start,int end,int treeNode){
+    if(start == end){
+     	tree[treeNode]=arr[start] ;
+        return;
+    }
+    
+    int mid = (start + end)/2;
+     buildTree(arr,tree,start,mid,treeNode*2);
+     buildTree(arr,tree,mid+1,end,treeNode*2+1);
+    tree[treeNode] = max(tree[treeNode*2],tree[treeNode*2+1]);
+    
+}
+int main(){
+    
+    // write your code here
+	int n;
+     cin >> n;
+    vector<int> arr(n);
+    for(auto &a :arr){
+        cin >> a;
+    }
+    vector<int> tree(4*n);
+    buildTree(arr,tree,0,n-1,1);
+    int q;
+    cin >>q;
+    while(q--){
+        int i,j;
+        cin >>i>>j;
+        cout << query(tree,0,n-1,1,i,j)<<endl;
+    }
+    return 0;
+}
