@@ -1,0 +1,138 @@
+#include<bits/stdc++.h>
+using namespace std;
+struct type{
+    int odd = 0;
+    int even =0;
+};
+
+type query(vector<type> &tree,int start ,int end, int treeNode,int left ,int right){
+    //complete inside 
+    
+    
+    //complete outside
+    if(right < start || left > end){
+        type t;
+        return t;
+    }
+    
+    if(left <= start && right >= end){
+        return tree[treeNode];
+    }
+    
+    int mid = (start + end) /2;
+    type l = query(tree,start,mid,treeNode*2,left,right);
+    type r = query(tree,mid+1,end,treeNode*2+1,left,right);
+    
+    type ans;
+    
+    ans.odd = l.odd+r.odd;
+    ans.even = l.even+r.even;
+    return ans;
+    // partially range and 
+}
+
+
+void buildTree(vector<int> &arr,vector<type> &tree,int start,int end,int treeNode){
+    if(start == end){
+     	 if(arr[start] %2 == 0){
+                tree[treeNode].even = 1;
+            } else{
+                tree[treeNode].odd = 1;
+                
+            }
+        return;
+    }
+    
+    int mid = (start + end)/2;
+     buildTree(arr,tree,start,mid,treeNode*2);
+     buildTree(arr,tree,mid+1,end,treeNode*2+1);
+    
+    type left = tree[treeNode*2];
+    type right = tree[treeNode*2+1];
+    type ans;
+    
+    ans.odd = left.odd+right.odd;
+    ans.even = left.even+right.even;
+   
+        
+    tree[treeNode] = ans;
+    
+}
+
+void updateTree(vector<int>& arr,vector<type> &tree,int start ,int end, int treeNode,int idx,int val){
+     if(start == end){
+         arr[idx] = val;
+     	 if(arr[idx] % 2 == 0){
+                tree[treeNode].even = 1;
+               tree[treeNode].odd = 0;
+            } else{
+                tree[treeNode].odd = 1;
+                tree[treeNode].even = 0;
+             
+            }
+        return;
+    }
+    
+    int mid =(start + end)/2;
+    if(idx > mid){
+            updateTree(arr,tree,mid+1,end,2*treeNode +1,idx,val);
+
+    }else{
+            updateTree(arr,tree,start,mid,2*treeNode ,idx,val);
+
+    }
+    
+    type left = tree[treeNode*2];
+    type right = tree[treeNode*2+1];
+    type ans;
+    
+    ans.odd = left.odd+right.odd;
+    ans.even = left.even+right.even;
+        
+    tree[treeNode] = ans;
+}
+
+int main(){
+    
+    int n; 
+    cin >> n;
+    vector<int> arr(n);
+    
+    for(int i =0;i< n;i++){
+        cin >> arr[i];
+    }
+      vector<type> tree(4*n);
+      buildTree(arr,tree,0,n-1,1);
+    
+    	// for(int i =0;i< 2*n;i++){
+    	// cout << tree[i].even<< " " <<tree[i].odd<<endl;
+    	// }
+    int q;
+    cin >>q;
+      // cout << "update"<<endl;
+      //       	for(int i =0;i< 2*n;i++){
+      //               cout << tree[i].even<< " " <<tree[i].odd<<endl;
+      //              }
+      //       cout << "update end"<<endl;
+    while(q--){
+        int t,x,y;
+        cin >> t>> x>>y;
+        
+        if(t==0){
+           updateTree(arr,tree,0,n-1,1,x-1,y);
+            // cout << "update"<<endl;
+            // 	for(int i =0;i< 2*n;i++){
+            //         cout << tree[i].even<< " " <<tree[i].odd<<endl;
+            //        }
+            // cout << "update end"<<endl;
+            
+        }else if(t==1){
+            cout << query(tree,0,n-1,1,x-1,y-1).even<<endl;
+        }else{
+         	 cout << query(tree,0,n-1,1,x-1,y-1).odd<<endl;
+
+        }
+    }
+    // write your code here
+    return 0;
+}
