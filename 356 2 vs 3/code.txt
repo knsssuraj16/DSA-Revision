@@ -1,0 +1,90 @@
+#include<bits/stdc++.h>
+using namespace std;
+int power[100001];
+
+void buildPower(){
+    power[0] = 1;
+    for(int i = 1; i < 100001; i++) power[i] = (power[i-1]*2)%3;
+}
+void buildTree(string &arr,vector<int> &tree,int start,int end,int treeNode){
+    if(start == end){
+     	tree[treeNode]=arr[start]-'0' ;
+        return;
+    }
+    
+    int mid = (start + end)/2;
+     buildTree(arr,tree,start,mid,treeNode*2);
+     buildTree(arr,tree,mid+1,end,treeNode*2+1);
+    tree[treeNode] = ((tree[treeNode*2]  * power[end-mid])  + tree[treeNode*2+1]) %3;
+    
+}
+int query(vector<int> &tree,int start ,int end, int treeNode,int left ,int right){
+    //complete inside 
+    
+    
+    //complete outside
+    if(right < start || left > end){
+        return 0;
+    }
+    
+    if(left <= start && right >= end){
+      return (tree[treeNode]*power[right-end])%3;
+    }
+    
+    int mid = (start + end) /2;
+    int l = query(tree,start,mid,treeNode*2,left,right);
+    int r = query(tree,mid+1,end,treeNode*2+1,left,right);
+    return (l + r)%3;
+    // partially range and 
+}
+
+void updateTree(string &arr,vector<int> &tree,int start ,int end, int treeNode,int idx,int val){
+     if(start == end){
+         arr[idx] ='1';
+     	tree[treeNode]= 1 ;
+        return;
+    }
+    int mid =(start + end)/2;
+    if(idx > mid){
+            updateTree(arr,tree,mid+1,end,2*treeNode +1,idx,val);
+
+    }else{
+            updateTree(arr,tree,start,mid,2*treeNode ,idx,val);
+
+    }
+    
+      tree[treeNode] = ((tree[treeNode*2]  * power[end-mid])  + tree[treeNode*2+1]) %3;
+}
+
+int main(){
+    
+    // write your code here
+    int n;
+    cin >>n;
+    string arr;
+    cin >> arr;
+    buildPower();
+    vector<int> tree(4*n);
+    buildTree(arr,tree,0,n-1,1);
+    
+    int q;
+    cin >>q;
+    while(q--){
+        int t;
+        cin >> t;
+        if(t == 0){
+            	int a,b;
+            	cin >> a>> b;
+               cout << query(tree,0,n-1,1,a,b)<<endl;
+            
+        }else{
+            int a;
+            cin >> a;
+            if(arr[a] == '0'){
+                 updateTree(arr,tree,0,n-1,1,a,1);
+            }
+            // update()
+        }
+    }
+    return 0;
+}
