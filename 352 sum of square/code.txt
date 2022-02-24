@@ -1,0 +1,205 @@
+#include<bits/stdc++.h>
+using namespace std;
+struct node{
+    int sumsq,sum;
+    node(){
+        sumsq=sum=0;
+    }
+};
+struct la{
+    int type,val;
+    la(){
+        type=-1,val=0;
+    }
+};
+vector<int>arr;
+vector<la>lazy;
+vector<node>tree;
+int n,q;
+void build(int start,int end,int treenode)
+{
+    if(start==end)
+    {
+        tree[treenode].sumsq=arr[start]*arr[start];
+        tree[treenode].sum=arr[start];
+        return;
+    }
+    int mid=(start+end)/2;
+    build(start,mid,2*treenode);
+    build(mid+1,end,2*treenode+1);
+    tree[treenode].sumsq=tree[2*treenode].sumsq+tree[2*treenode+1].sumsq;
+    tree[treenode].sum=tree[2*treenode].sum+tree[2*treenode+1].sum;
+}
+void update(int start,int end,int treenode,int left,int right,int operval,int oper)
+{
+    if(lazy[treenode].type!=-1)
+    {
+        int type=lazy[treenode].type;
+        int val=lazy[treenode].val;
+        if(type==0)
+        {
+            tree[treenode].sumsq=(end-start+1)*val*val;
+            tree[treenode].sum=(end-start+1)*val;
+            if(start!=end)
+            {
+                lazy[2*treenode]=lazy[2*treenode+1]=lazy[treenode];
+            }
+            lazy[treenode].type=-1;
+            lazy[treenode].val=0;
+        }
+        else
+        {
+            tree[treenode].sumsq+=2*val*tree[treenode].sum+(end-start+1)*val*val;
+            tree[treenode].sum+=(end-start+1)*val;
+            if(start!=end)
+            {
+                lazy[2*treenode].val+=val;
+                lazy[2*treenode+1].val+=val;
+                if(lazy[2*treenode].type==-1)
+                {
+                    lazy[2*treenode].type=1;
+                }
+                if(lazy[2*treenode+1].type==-1)
+                {
+                    lazy[2*treenode+1].type=1;
+                }
+            }
+            lazy[treenode].type=-1;
+            lazy[treenode].val=0;
+        }
+    }
+    if(end<left or start>right)return;
+    if(end<=right and start>=left)
+    {
+        if(oper==0)
+        {
+            tree[treenode].sumsq=(end-start+1)*operval*operval;
+            tree[treenode].sum=(end-start+1)*operval;
+			if(start!=end)
+            {
+                lazy[2*treenode].type=0;
+                lazy[2*treenode].val=operval;
+                lazy[2*treenode+1].type=0;
+                lazy[2*treenode+1].val=operval;
+            }
+        }
+        else
+        {
+            tree[treenode].sumsq+=2*operval*tree[treenode].sum+(end-start+1)*operval*operval;
+            tree[treenode].sum+=(end-start+1)*operval;
+            if(start!=end)
+            {
+                lazy[2*treenode].val+=operval;
+                lazy[2*treenode+1].val+=operval;
+                if(lazy[2*treenode].type==-1)
+                {
+                    lazy[2*treenode].type=1;
+                }
+                if(lazy[2*treenode+1].type==-1)
+                {
+                    lazy[2*treenode+1].type=1;
+                }
+            }
+        }
+        return;
+    }
+    int mid=(start+end)/2;
+    update(start,mid,2*treenode,left,right,operval,oper);
+    update(mid+1,end,2*treenode+1,left,right,operval,oper);
+    tree[treenode].sumsq=tree[2*treenode].sumsq+tree[2*treenode+1].sumsq;
+    tree[treenode].sum=tree[2*treenode].sum+tree[2*treenode+1].sum;
+    
+}
+node query(int start,int end,int treenode,int left,int right)
+{
+    if(lazy[treenode].type!=-1)
+    {
+        int type=lazy[treenode].type;
+        int val=lazy[treenode].val;
+        if(type==0)
+        {
+            tree[treenode].sumsq=(end-start+1)*val*val;
+            tree[treenode].sum=(end-start+1)*val;
+            if(start!=end)
+            {
+                lazy[2*treenode]=lazy[2*treenode+1]=lazy[treenode];
+            }
+            lazy[treenode].type=-1;
+            lazy[treenode].val=0;
+        }
+        else
+        {
+            tree[treenode].sumsq+=2*val*tree[treenode].sum+(end-start+1)*val*val;
+            tree[treenode].sum+=(end-start+1)*val;
+            if(start!=end)
+            {
+                lazy[2*treenode].val+=val;
+                lazy[2*treenode+1].val+=val;
+                if(lazy[2*treenode].type==-1)
+                {
+                    lazy[2*treenode].type=1;
+                }
+                if(lazy[2*treenode+1].type==-1)
+                {
+                    lazy[2*treenode+1].type=1;
+                }
+            }
+            lazy[treenode].type=-1;
+            lazy[treenode].val=0;
+        }
+    }
+    node ans;
+    if(start>right or end<left)return ans;
+    if(start>=left and end<=right)return tree[treenode];
+    int mid=(start+end)/2;
+    node l = query(start,mid,2*treenode,left,right);
+    node r = query(mid+1,end,2*treenode+1,left,right);
+    ans.sumsq=l.sumsq+r.sumsq;
+    ans.sum=l.sum+r.sum;
+    return ans;
+}
+int main(){
+    
+    int t=1;
+    cin>>t;
+    
+    while(t--)
+    {
+        arr.clear();
+        tree.clear();
+        lazy.clear();
+        cin>>n>>q;
+        arr.resize(n);
+        tree.resize(4*n);
+        lazy.resize(4*n);
+        for(int i=0;i<n;i++)cin>>arr[i];
+        build(0,n-1,1);
+        while(q--)
+        {
+            int type;
+            cin>>type;
+            if(type==0)
+            {
+                int l,r,x;
+                cin>>l>>r>>x;
+                l--,r--;
+                update(0,n-1,1,l,r,x,0);
+            }
+            else if(type==1)
+            {
+                int l,r,x;
+                cin>>l>>r>>x;
+                l--,r--;
+                update(0,n-1,1,l,r,x,1);
+            }
+            else
+            {
+                int l,r;
+                cin>>l>>r;
+                l--,r--;
+                cout<<query(0,n-1,1,l,r).sumsq<<"\n";
+            }
+        }
+    }
+    return 0;
+}
