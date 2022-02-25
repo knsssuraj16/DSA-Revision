@@ -1,0 +1,105 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define int long long
+void updateRange(   vector<int>& arr, vector<int>& lazy, vector<int> &tree,int st,int en,int treeNode,int ri,int rj,int val){
+
+    if(lazy[treeNode] != 0){
+        tree[treeNode] += (en-st +1) *lazy[treeNode];
+        if(st != en){
+            lazy[2*treeNode] += lazy[treeNode];
+            lazy[2*treeNode+1] += lazy[treeNode]; 
+        }
+        lazy[treeNode]  =0;
+    }
+    
+    // no over lap
+    if(en < ri || st> rj){
+        return;
+    }
+    // complete overlap
+    if(ri <= st && en<= rj){
+        tree[treeNode] += (en-st +1) *val;
+        if(st != en){
+           lazy[2*treeNode] += val;
+        	lazy[2*treeNode+1] += val;   
+        }
+        return;
+    }
+    // paritally overlap
+    int mid  = (st + en )/2;
+     updateRange(arr,lazy,tree,st,mid,treeNode*2,ri,rj,val);
+     updateRange(arr,lazy,tree,mid+1,en,treeNode*2+1,ri,rj,val);
+     tree[treeNode] = tree[treeNode*2] + tree[treeNode*2+1];
+        
+}
+int query(vector<int>& arr, vector<int>& lazy, vector<int> &tree,int st,int en,int treeNode,int ri,int rj){
+
+    // cout <<treeNode<<" "<<lazy[treeNode]<<endl;
+    
+    if(lazy[treeNode] != 0){
+        tree[treeNode] += (en-st +1) *lazy[treeNode];
+        if(st != en){
+            lazy[2*treeNode] += lazy[treeNode];
+            lazy[2*treeNode+1] += lazy[treeNode]; 
+        }
+        lazy[treeNode] =0;
+    }
+    
+    // no over lap
+    if(en < ri || st> rj){
+        return 0;
+    }
+    // complete overlap
+    if(ri <= st && en<= rj){
+        
+        return tree[treeNode];
+    }
+    // paritally overlap
+    int mid  = (st + en )/2;
+    int l = query(arr,lazy,tree,st,mid,treeNode*2,ri,rj);
+    int r = query(arr,lazy,tree,mid+1,en,treeNode*2+1,ri,rj);
+   
+    	// cout << l <<" l: r "<<r<<endl; 
+    return (l+r);
+    
+    
+}
+
+signed main(){
+    
+    // write your code here
+    int t ;
+    cin >>t ;
+    while(t--){
+        int n;
+        cin >> n;
+        vector<int> arr(n,0);
+      
+        vector<int> tree(4*n,0);
+        vector<int> lazy(4*n,0);
+        int q;
+        cin>> q;
+       
+        
+        while(q--){
+            int ty;
+            cin >> ty;
+             
+            if(ty == 0){
+                int i,j,val;
+                cin >> i>> j>> val;
+                updateRange(arr,lazy,tree,0,n-1,1,i-1,j-1,val);
+             
+            }
+            else{
+                int i,j;
+                cin >> i >> j;
+                cout <<query(arr,lazy,tree,0,n-1,1,i-1,j-1)<<endl;
+   			// for(int i =0;i<2*n; i++){
+   			// cout <<i <<" : "<< lazy[i]<<" \n";
+   			// }cout <<endl;
+   			}
+        }
+    }
+    return 0;
+}
