@@ -1,0 +1,41 @@
+class Solution {
+public:
+    int shortestPathLength(vector<vector<int>>& graph) {
+        if(graph.size() == 1){
+            return 0;
+        }
+        queue<pair<int,int>> q;
+        int finalState = (1 << graph.size()) - 1;
+        for(int i =0; i<graph.size(); i++){
+            q.push({i,1<<i});
+            
+        }
+        int count  =0;
+        vector<vector<int>> dp(graph.size()+1,vector<int>(finalState+1, 0));
+        
+        while(!q.empty()){
+            int n = q.size();
+                 count++;
+            for(int i =0; i< n; i++){
+                pair<int,int> loc = q.front();
+                q.pop();
+           
+                for(auto a : graph[loc.first]){
+                    
+                    int chek = a;
+                    int curstate = (loc.second |( 1 << a));
+                    if(curstate == finalState){
+                        return count;
+                    }
+                    
+                    if(dp[a][curstate] == 0){
+                        dp[a][curstate] =1;
+                        q.push({a,curstate});
+                    }
+                    
+                }
+            }
+        }
+        return -1;
+    }
+};
