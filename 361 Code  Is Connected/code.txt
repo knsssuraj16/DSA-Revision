@@ -1,0 +1,54 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+   vector<vector<int>> makeGraph(int v,int e){
+          vector<vector<int>> graph(v,vector<int>(v,0));
+       for(int i =0; i<e; i++){
+       		int a,b;
+			cin >> a>> b;
+           	graph[a][b] = 1;
+           	graph[b][a]= 1;
+           
+       }
+     
+       return graph;
+   }
+
+ 
+ void dfs(int st,vector<vector<int>> &graph, vector<bool> &visited){
+			
+     visited[st] = true;
+     	for(int i=0; i<visited.size(); i++){
+            if( graph[st][i] == 1&& !visited[i]){
+				visited[i] = true;
+                	dfs(i,graph,visited );
+                }
+        }
+    }
+int main(){
+    
+    // write your code here
+    int t;
+	cin >> t;
+    while(t--){
+    int v,e;
+        cin >> v>> e;
+
+        vector<vector<int>> graph = makeGraph(v,e); 
+
+     
+        vector<bool> visited(v,false);
+
+       dfs(0,graph,visited);
+		bool flag = true;
+     	for(int i =0; i< visited.size(); i++){
+        	if(visited[i] ==false){
+				cout << "false" << endl;
+                flag = false;
+                break;
+            }    
+        }
+        if(flag){	cout << "true" << endl;}
+        }
+    return 0;
+}
