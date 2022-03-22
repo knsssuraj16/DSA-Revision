@@ -1,0 +1,78 @@
+#include<bits/stdc++.h>
+using namespace std;
+class Edge {
+    public:
+    int s,d,w;
+};
+bool comp(Edge a, Edge b){
+    return a.w  < b.w;
+}
+
+int getParent(int idx, vector<int> &parent){
+    if(idx == parent[idx]){
+        return idx;
+    }
+    parent[idx] = getParent(parent[idx],parent);
+    return parent[idx];
+}
+
+void unions(int u,int v, vector<int> &parent,vector<int>& rank){
+     u = getParent(u,parent);
+     v = getParent(v,parent);
+    
+    if(rank[u] < rank[v]){
+        parent[u] = v;
+    }else if(rank[v] < rank[u]){
+        parent[v] = u;
+    }else{
+        parent[u] = v;
+    	rank[u]++;
+    }
+}
+
+
+int main(){
+    
+    // write your code here
+    int t;
+    cin >>t ;
+    while(t--){
+        int v,e;
+        cin >> v >>e;
+        vector<Edge> graph(e);
+        for(int i =0; i< e;i++){
+            cin >> graph[i].s >> graph[i].d >> graph[i].w;
+            
+        }
+        
+        sort(graph.begin(),graph.end(),comp);
+        vector<int> parent(v);
+        for(int i =0 ;i<v; i++){
+            parent[i] = i;
+        }
+        vector<int> rank(v,0);
+//         for(int i =0 ;i< e;i++){
+//             cout<< graph[i].w <<endl;
+            
+//         }
+        
+        int count  = 0;
+        int total =0;
+        int i =0;
+        while(count < v-1){
+            int pars= getParent(graph[i].s,parent);
+            int pard = getParent(graph[i].d,parent);
+            if(pars != pard){
+                 total += graph[i].w;
+                count++;
+                unions(pars,pard,parent,rank);
+                     
+            }
+            i++;
+         		
+        }
+        
+        cout << total <<endl;
+    }
+    return 0;
+}
