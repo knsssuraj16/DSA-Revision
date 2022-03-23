@@ -1,0 +1,58 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+ int minWeight(vector<int> &weight,int v,vector<bool> &visited){
+     int mw = -1;
+     for(int i =0 ; i< v; i++){
+        if(!visited[i] && (mw == -1 || weight[mw] >  weight[i])){
+            mw = i;
+        }
+     }
+     return mw;
+ }
+ void prims(vector<vector<int>> & graph,int v,int e){
+     
+    vector<int> weight(v,INT_MAX);
+    vector<bool> visited(v,false);
+     weight[0] = 0;
+     int count  =0 ;
+     for(int i =0; i< v; i++){
+         
+         int idx = minWeight(weight,v,visited);
+         // cout << idx <<endl;
+         
+         count += weight[idx];
+         visited[idx] = true; 
+         for(int j =0 ;j <v ; j++){
+             if(graph[idx][j] > 0 and !visited[j]){
+         		   weight[j] =min(graph[idx][j],weight[j]);    
+             }
+         }
+     }
+     
+     cout << count<<endl;
+     
+ }
+int main(){
+    
+    // write your code here
+    int t;
+    cin >> t;
+    while(t--){
+        int v,e;
+        cin >> v >> e;
+        vector<vector<int>> graph(v,vector<int> (v,0));
+       
+        for(int i =0; i< e; i++){
+            int x, y, z;
+            cin >> x >> y >> z;
+             graph[x][y] =graph[x][y] == 0 ? z : min(graph[x][y] , z);
+             graph[y][x] = graph[y][x] == 0 ? z : min(graph[y][x] , z);
+            
+             // cout <<  graph[x][y] <<endl;
+        }
+        
+        prims(graph,v,e);
+    }
+    return 0;
+}
