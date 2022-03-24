@@ -1,0 +1,58 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+ int minWeight(vector<int> &dis,int v,vector<bool> &visited){
+     int mw = -1;
+     for(int i =0 ; i< v; i++){
+        if(!visited[i] && (mw == -1 || dis[mw] >  dis[i])){
+            mw = i;
+        }
+     }
+     return mw;
+ }
+ void dijkstra(vector<vector<int>> & graph,int v,int e){
+     
+    vector<int> dis(v,INT_MAX);
+    vector<bool> visited(v,false);
+     dis[0] = 0;
+     int count  =0 ;
+     for(int i =0; i< v; i++){
+         
+         int idx = minWeight(dis,v,visited);
+        
+         visited[idx] = true; 
+         for(int j =0 ;j <v ; j++){
+             int currpath = dis[idx] + graph[idx][j];
+             if(graph[idx][j] > 0 and !visited[j]){
+         		   dis[j] =min(dis[j],currpath);    
+             }
+         }
+     }
+     
+     for(int i =0; i<v; i++){
+         cout << i <<" " <<dis[i] <<endl;
+     }
+ }
+int main(){
+    
+    // write your code here
+    int t;
+    cin >> t;
+    while(t--){
+        int v,e;
+        cin >> v >> e;
+        vector<vector<int>> graph(v,vector<int> (v,0));
+       
+        for(int i =0; i< e; i++){
+            int x, y, z;
+            cin >> x >> y >> z;
+             graph[x][y] =graph[x][y] == 0 ? z : min(graph[x][y] , z);
+             graph[y][x] = graph[y][x] == 0 ? z : min(graph[y][x] , z);
+            
+             // cout <<  graph[x][y] <<endl;
+        }
+        
+        dijkstra(graph,v,e);
+    }
+    return 0;
+}
