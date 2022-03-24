@@ -1,0 +1,83 @@
+#include<bits/stdc++.h>
+using namespace std;
+class node {
+    public:
+    int src, dest, wei;
+    
+};
+
+bool comp(node a, node b){
+   return a.wei < b.wei;
+}
+ int minWeight(vector<int> &dis,int v,vector<bool> &visited){
+     int mw = -1;
+     for(int i =0 ; i< v; i++){
+        if(!visited[i] && (mw == -1 || dis[mw] >  dis[i])){
+            mw = i;
+        }
+     }
+     return mw;
+ }
+ void dijkstra(vector<vector<node>> & graph,int v,int e){
+     
+    vector<int> dis(v,INT_MAX);
+    vector<bool> visited(v,false);
+     
+	priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> pq;
+     pq.push({0,0});
+     
+     while(pq.size() > 0){
+         pair<int,int> p = pq.top();
+         pq.pop();
+         int currDis =p.first;
+         int src = p.second;
+         dis[src] = min(dis[src],currDis);
+         visited[src] = true;
+         for(auto a: graph[src]){
+             if(!visited[a.dest]){
+                 
+                 pq.push(make_pair(currDis+a.wei,a.dest));
+             }
+         }
+     }
+     
+
+     
+     for(int i =0; i<v; i++){
+         cout << i <<" " <<dis[i] <<endl;
+     }
+ }
+
+int main(){
+    
+    // write your code here
+    int t;
+    cin >> t;
+    while(t--){
+        int v,e;
+        cin >> v >> e;
+        vector<vector<node>> graph(v);
+       
+        for(int i =0; i< e; i++){
+            int x,y,z;
+            cin >> x >> y >> z;
+      		node n1,n2;
+            n1.src = x;
+            n1.dest = y;
+            n1.wei = z;
+            
+            n2.src = y;
+            n2.dest = x;
+            n2.wei = z;
+            
+             graph[x].push_back(n1);
+            
+             graph[y].push_back(n2);
+            
+             // cout <<  graph[x][y] <<endl;
+        }
+        
+        dijkstra(graph,v,e);
+    }
+    return 0;
+}

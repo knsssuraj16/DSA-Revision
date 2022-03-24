@@ -1,0 +1,73 @@
+#include<bits/stdc++.h>
+using namespace std;
+class node {
+    public:
+    int src, dest, wei;
+    
+};
+ int minWeight(vector<int> &dis,int v,vector<bool> &visited){
+     int mw = -1;
+     for(int i =0 ; i< v; i++){
+        if(!visited[i] && (mw == -1 || dis[mw] >  dis[i])){
+            mw = i;
+        }
+     }
+     return mw;
+ }
+ void dijkstra(vector<vector<node>> & graph,int v,int e){
+     
+    vector<int> dis(v,INT_MAX);
+    vector<bool> visited(v,false);
+     dis[0] = 0;
+     int count  =0 ;
+     for(int i =0; i< v; i++){
+         
+         int idx = minWeight(dis,v,visited);
+        
+         visited[idx] = true; 
+        	for(auto j: graph[idx]){
+             int currpath = dis[idx] + j.wei;
+             if(!visited[j.dest]){
+         		   dis[j.dest] =min(dis[j.dest],currpath);    
+             }
+         }
+     }
+     
+     for(int i =0; i<v; i++){
+         cout << i <<" " <<dis[i] <<endl;
+     }
+ }
+
+int main(){
+    
+    // write your code here
+    int t;
+    cin >> t;
+    while(t--){
+        int v,e;
+        cin >> v >> e;
+        vector<vector<node>> graph(v);
+       
+        for(int i =0; i< e; i++){
+            int x,y,z;
+            cin >> x >> y >> z;
+      		node n1,n2;
+            n1.src = x;
+            n1.dest = y;
+            n1.wei = z;
+            
+            n2.src = y;
+            n2.dest = x;
+            n2.wei = z;
+            
+             graph[x].push_back(n1);
+            
+             graph[y].push_back(n2);
+            
+             // cout <<  graph[x][y] <<endl;
+        }
+        
+        dijkstra(graph,v,e);
+    }
+    return 0;
+}
