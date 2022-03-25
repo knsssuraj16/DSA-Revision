@@ -1,0 +1,74 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+class edges{
+  	public:
+    int src,dest,wei;
+};
+
+void bellmanFord(vector<edges> &graph,int v,int e,int src,int dest){
+    vector<int> path(v+1,INT_MAX);
+    path[src] = 0;
+    for(int i = 0 ; i< v; i++){
+        for(int j = 0 ;j <e; j++){
+            auto e = graph[j];
+            
+            int u = e.src;
+            int v = e.dest;
+            int w = e.wei;
+            
+            if(path[u] != INT_MAX && (path[v] > path[u] + w ))
+            {
+             path[v] = path[u] + w;   
+            }
+            
+              
+        }
+        
+        
+    }
+    
+    // for(int i = 0; i< e; i++)
+    // {
+    //     cout <<path[i] << endl;
+    // }    
+    cout << (path[dest] == INT_MAX ? 1000000000 : path[dest]) <<endl;
+}
+ 
+
+int main(){
+    
+    // write your code here
+    int t;
+    cin >>t;
+    while(t--){
+        int v,e;
+        cin >> v>> e;
+        
+        vector<edges> graph(e);
+        
+        int src,dest;
+        cin >> src >> dest;
+        
+        for(int i =0; i<e; i++){
+            edges e;
+            int x, y, z;
+            cin >> x >>y >>z;
+            e.src = x;
+            e.dest = y; 
+            e.wei = z;
+            
+            graph[i] =e;    
+            
+            // auto a = graph[i][0];
+            // cout << a.src;
+            
+        }
+        
+     
+        
+    bellmanFord(graph,v,e,src,dest);
+    }
+    
+    return 0;
+}
