@@ -1,0 +1,70 @@
+#include<bits/stdc++.h>
+using namespace std;
+void floydWarswal( vector<vector<int>>& graph,int v,int e){
+    for(int k = 1; k <= v; k++){
+        for(int i =1; i<=v; i++){
+            for(int j =1 ; j<= v; j++){
+                if(graph[i][k] != INT_MAX && graph[k][j] != INT_MAX && graph[i][j] > graph[i][k]+graph[j][k]){
+                    graph[i][j]  = graph[i][k]+graph[j][k];
+                }
+            }
+        }
+    }
+}
+
+int main(){
+    
+    // write your code here
+    int t;
+     cin >> t;
+    while(t--){
+        int v,e;
+        cin >> v >> e;
+        vector<vector<int>> graph(v+1,vector<int>(v+1,INT_MAX));
+        for(int i=0 ;i< e; i++){
+            int u , v, w;
+            cin >> u >> v >> w;
+           
+                graph[u][v] =min(w,graph[u][v]);
+                graph[v][u] =min(w,graph[v][u]);;
+            
+            
+        }
+        
+        //  for(int i =1; i<=v; i++){
+        //     for(int j =1 ; j<= v; j++){
+        //        cout << graph[i][j] <<" ";
+        //     }
+        //      cout <<endl;
+        // }
+        
+        
+        floydWarswal(graph,v,e);
+        
+//          for(int i =1; i<=v; i++){
+//             for(int j =1 ; j<= v; j++){
+//                cout << graph[i][j] <<" ";
+//             }
+//              cout <<endl;
+//         }
+        
+    int q;
+    cin >> q;
+        for(int i =0;i< q; i++){
+            int a,b;
+            
+            cin >>a >> b;
+            if(a == b){
+                   cout << 0<<endl;
+            }else if(graph[a][b] == INT_MAX){
+                   cout <<1000000000<<endl;
+            }else{
+                   cout << graph[a][b]<<endl;
+            }
+         
+        }
+        
+    }
+    
+    return 0;
+}
